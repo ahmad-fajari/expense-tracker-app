@@ -124,19 +124,21 @@
 
           <form id="transactionForm"
             data-testid="transactionForm"
-            class="tracker-form">
+            class="tracker-form"
+            novalidate>
 
             <!-- keterangan -->
             <div class="tracker-form__field">
               <label class="tracker-form__label"
                 for="transactionFormTitleInput">Keterangan</label>
               <input type="text"
-                name="keterangan"
+                name="title"
                 id="transactionFormTitleInput"
                 data-testid="transactionFormTitleInput"
                 class="tracker-form__input"
                 placeholder="Misal: Makan siang..."
-                required>
+                required
+                data-error-value="Keterangan wajib diisi">
             </div>
 
             <!-- nominal -->
@@ -144,13 +146,15 @@
               <label class="tracker-form__label"
                 for="transactionFormAmountInput">Nominal (Rp)</label>
               <input type="number"
-                name="nominal"
+                name="amount"
                 id="transactionFormAmountInput"
                 data-testid="transactionFormAmountInput"
                 class="tracker-form__input"
                 placeholder="50000"
                 min="1"
-                required>
+                required
+                data-error-value="Nominal wajib diisi"
+                data-error-min="Nominal tidak boleh kurang dari Rp. 1">
             </div>
 
             <!-- tanggal -->
@@ -158,22 +162,29 @@
               <label class="tracker-form__label"
                 for="transactionFormDateInput">Tanggal</label>
               <input type="date"
-                name="tanggal"
+                name="date"
                 id="transactionFormDateInput"
                 data-testid="transactionFormDateInput"
                 class="tracker-form__input"
-                required>
+                required
+                data-error-value="Tanggal wajib diisi"
+                data-error-max="Tanggal tidak boleh lebih dari hari ini">
             </div>
 
             <!-- Klasifikasi -->
             <div class="tracker-form__field">
               <label class="tracker-form__label"
                 for="transactionFormTypeSelect">Klasifikasi</label>
-              <select name="klasifikasi"
+              <select name="type"
                 id="transactionFormTypeSelect"
                 data-testid="transactionFormTypeSelect"
                 class="tracker-form__input"
-                required>
+                required
+                data-error-value="Klasifikasi transaksi wajib dipilih">
+                <option value=""
+                  disabled
+                  selected
+                  hidden>Pilih klasifikasi transaksi</option>
                 <option value="income">Uang Masuk (+)</option>
                 <option value="expense">Uang Keluar (-)</option>
               </select>
@@ -182,7 +193,7 @@
             <!-- simpan button -->
             <button type="submit"
               data-testid="transactionFormSubmitButton"
-              class="tracker-form__submit">Simpan</button>
+              class="tracker-form__submit">Catat Transaksi</button>
           </form>
         </div>
       </section>
