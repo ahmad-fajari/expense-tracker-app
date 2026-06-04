@@ -1,4 +1,15 @@
-// pencatatan transaksi
+// daftar transaksi
+const STORAGE_KEY = "transactions";
+let transactionList = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+
+console.log(transactionList);
+
+// dashboard
+const balance = document.querySelector("#balance-amount");
+const income = document.querySelector("#income-amount");
+const expense = document.querySelector("#expense-amount");
+
+// form pencatatan transaksi
 const transactionForm = document.querySelector("#transactionForm");
 
 // riwayat transaksi
@@ -8,16 +19,10 @@ const expenseList = document.querySelector("#expenseList");
 // template transaksi
 const transactionTemplate = document.querySelector("#transaction-template");
 
-// daftar transaksi
-const STORAGE_KEY = "transactions";
-let transactionList = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-
-console.log(transactionList);
-
 // membuat attribute max pada tanggal secara dinamis sesuai tanggal hari ini
 const dateInput = document.querySelector("#transactionFormDateInput");
 const dateTodayTimestamp = new Date();
-// ubah menjadi format YYYY-MM-DD
+// mengubah formatnya menjadi YYYY-MM-DD
 const dateToday = dateTodayTimestamp.toISOString().split("T")[0];
 dateInput.setAttribute("max", dateToday);
 
@@ -47,9 +52,9 @@ function validateTransaction(inputElement) {
   }
 }
 
-// =========================
-// FUNCTION RENDER TRANSAKSI
-// =========================
+// ================
+// RENDER TRANSAKSI
+// ================
 
 function renderTransaction() {
   incomeList.innerHTML = "";
@@ -79,7 +84,7 @@ function renderTransaction() {
     transactionItemDate.textContent = transaction.date;
     transactionItemType.textContent = transaction.type;
 
-    // tampilkan transaksi di kolom yang sesuai dan sesuaikan warnanya
+    // masukkan data transaksi ke kolom yang sesuai dan sesuaikan warnanya
     if (transaction.type === "income") {
       transactionItemAmount.classList.add(
         "tracker-transaction-item__amount__income",
@@ -98,6 +103,48 @@ function renderTransaction() {
       expenseList.append(transactionData);
     }
   });
+}
+
+// ==================
+// HITUNG TOTAL SALDO
+// ==================
+
+function sumBalance() {
+  let totalIncome = 0;
+  let totalExpense = 0;
+
+  transactionList.forEach(function (transaction) {
+    if (transaction.type === "income") {
+      totalIncome += transaction.amount;
+    } else {
+      totalExpense += transaction.amount;
+    }
+  });
+
+  const totalBalance = totalIncome - totalExpense;
+
+  // tampilkan saldo di dashboard
+  balance.textContent = `Rp. ${totalBalance.toLocaleString("id-ID")}`;
+  income.textContent = `Rp. ${totalIncome.toLocaleString("id-ID")}`;
+  expense.textContent = `Rp. ${totalExpense.toLocaleString("id-ID")}`;
+}
+
+// ==================================================================
+// UPDATE ARRAY, LOCAL STORAGE, DAN UI SETIAP ADA PERUBAHAN TRANSAKSI
+// ==================================================================
+
+function updateTransaction(newTransactionList) {
+  // update daftar transaksi
+  transactionList = newTransactionList;
+
+  // simpan daftar transaksi ke local storage
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(transactionList));
+
+  // tampilkan ke ui
+  renderTransaction();
+
+  // hitung saldo
+  sumBalance();
 }
 
 // ========================================
@@ -129,16 +176,21 @@ transactionForm.addEventListener("submit", function (e) {
     // masukkan transaction ke daftar transaksi
     transactionList.push(newTransaction);
 
-    // simpan daftar transaksi ke local storage
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(transactionList));
-
-    // tampilkan di history transaksi
-    renderTransaction();
+    // jalankan function updateTransaction
+    updateTransaction(transactionList);
 
     // reset form
     transactionForm.reset();
   }
 });
 
-// Render list transaksi saat user membuka pertama kali
-renderTransaction();
+// ==================
+// APP INITIALIZATION
+// ==================
+
+function init() {
+  renderTransaction();
+  sumBalance();
+}
+
+init();
