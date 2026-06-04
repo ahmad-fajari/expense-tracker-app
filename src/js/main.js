@@ -5,9 +5,14 @@ const transactionForm = document.querySelector("#transactionForm");
 const incomeList = document.querySelector("#incomeList");
 const expenseList = document.querySelector("#expenseList");
 
+// template transaksi
+const transactionTemplate = document.querySelector("#transaction-template");
+
 // daftar transaksi
 const STORAGE_KEY = "transactions";
 let transactionList = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+
+console.log(transactionList);
 
 // membuat attribute max pada tanggal secara dinamis sesuai tanggal hari ini
 const dateInput = document.querySelector("#transactionFormDateInput");
@@ -42,6 +47,59 @@ function validateTransaction(inputElement) {
   }
 }
 
+// =========================
+// FUNCTION RENDER TRANSAKSI
+// =========================
+
+function renderTransaction() {
+  incomeList.innerHTML = "";
+  expenseList.innerHTML = "";
+
+  transactionList.forEach(function (transaction) {
+    // clone element dari template
+    const transactionData = transactionTemplate.content.cloneNode(true);
+
+    // element yang akan diisi data dari form user input
+    const transactionItemTitle = transactionData.querySelector(
+      '[data-testid="transactionItemTitle"]',
+    );
+    const transactionItemAmount = transactionData.querySelector(
+      '[data-testid="transactionItemAmount"]',
+    );
+    const transactionItemDate = transactionData.querySelector(
+      '[data-testid="transactionItemDate"]',
+    );
+    const transactionItemType = transactionData.querySelector(
+      '[data-testid="transactionItemType"]',
+    );
+
+    // isi transaksi dari transactionList
+    transactionItemTitle.textContent = transaction.title;
+    transactionItemAmount.textContent = `Rp. ${transaction.amount.toLocaleString("id-ID")}`;
+    transactionItemDate.textContent = transaction.date;
+    transactionItemType.textContent = transaction.type;
+
+    // tampilkan transaksi di kolom yang sesuai dan sesuaikan warnanya
+    if (transaction.type === "income") {
+      transactionItemAmount.classList.add(
+        "tracker-transaction-item__amount__income",
+      );
+      transactionItemAmount.classList.remove(
+        "tracker-transaction-item__amount__expense",
+      );
+      incomeList.append(transactionData);
+    } else {
+      transactionItemAmount.classList.add(
+        "tracker-transaction-item__amount__expense",
+      );
+      transactionItemAmount.classList.remove(
+        "tracker-transaction-item__amount__income",
+      );
+      expenseList.append(transactionData);
+    }
+  });
+}
+
 // ========================================
 // EVENT LISTENER FORM PENCATATAN TRANSAKSI
 // ========================================
@@ -74,9 +132,13 @@ transactionForm.addEventListener("submit", function (e) {
     // simpan daftar transaksi ke local storage
     localStorage.setItem(STORAGE_KEY, JSON.stringify(transactionList));
 
+    // tampilkan di history transaksi
+    renderTransaction();
+
     // reset form
     transactionForm.reset();
   }
 });
 
-console.log(transactionList);
+// Render list transaksi saat user membuka pertama kali
+renderTransaction();
