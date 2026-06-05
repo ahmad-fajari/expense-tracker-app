@@ -52,6 +52,33 @@ function validateTransaction(inputElement) {
   }
 }
 
+// ============================
+// BUAT TRANSACTION ID OTOMATIS
+// ============================
+
+function generateTransactionId() {
+  return "tx-" + Date.now();
+}
+
+// ====================================
+// TAMBAH TRANSAKSI KE DAFTAR TRANSAKSI
+// ====================================
+
+function addTransaction(transaction) {
+  // ambil data dari user input
+  const formDataRaw = new FormData(transactionForm);
+  const formData = Object.fromEntries(formDataRaw);
+
+  // tambahkan id dan ubah format nominal
+  const newTransaction = {
+    id: generateTransactionId(),
+    ...formData,
+    amount: Number(formData.amount),
+  };
+
+  transactionList.push(newTransaction);
+}
+
 // ================
 // RENDER TRANSAKSI
 // ================
@@ -62,23 +89,27 @@ function renderTransaction() {
 
   transactionList.forEach(function (transaction) {
     // clone element dari template
-    const transactionData = transactionTemplate.content.cloneNode(true);
+    const transactionItem = transactionTemplate.content.cloneNode(true);
 
     // element yang akan diisi data dari form user input
-    const transactionItemTitle = transactionData.querySelector(
+    const transactionItemWrapper = transactionItem.querySelector(
+      '[data-testid="transactionItem"]',
+    );
+    const transactionItemTitle = transactionItem.querySelector(
       '[data-testid="transactionItemTitle"]',
     );
-    const transactionItemAmount = transactionData.querySelector(
+    const transactionItemAmount = transactionItem.querySelector(
       '[data-testid="transactionItemAmount"]',
     );
-    const transactionItemDate = transactionData.querySelector(
+    const transactionItemDate = transactionItem.querySelector(
       '[data-testid="transactionItemDate"]',
     );
-    const transactionItemType = transactionData.querySelector(
+    const transactionItemType = transactionItem.querySelector(
       '[data-testid="transactionItemType"]',
     );
 
     // isi transaksi dari transactionList
+    transactionItemWrapper.setAttribute("data-transaction-id", transaction.id);
     transactionItemTitle.textContent = transaction.title;
     transactionItemAmount.textContent = `Rp. ${transaction.amount.toLocaleString("id-ID")}`;
     transactionItemDate.textContent = transaction.date;
@@ -92,7 +123,7 @@ function renderTransaction() {
       transactionItemAmount.classList.remove(
         "tracker-transaction-item__amount__expense",
       );
-      incomeList.append(transactionData);
+      incomeList.append(transactionItem);
     } else {
       transactionItemAmount.classList.add(
         "tracker-transaction-item__amount__expense",
@@ -100,7 +131,7 @@ function renderTransaction() {
       transactionItemAmount.classList.remove(
         "tracker-transaction-item__amount__income",
       );
-      expenseList.append(transactionData);
+      expenseList.append(transactionItem);
     }
   });
 }
@@ -153,28 +184,19 @@ function updateTransaction(newTransactionList) {
 
 transactionForm.addEventListener("submit", function (e) {
   e.preventDefault();
+
+  // validasi form
   if (!transactionForm.checkValidity()) {
     // tampilkan alert jika form tidak valid
     const errorInputs = transactionForm.querySelectorAll(":invalid");
     errorInputs.forEach((input) => {
       validateTransaction(input);
     });
-  } else {
-    // ambil data dari user input
-    const formDataRaw = new FormData(transactionForm);
-    const formData = Object.fromEntries(formDataRaw);
-
-    const newTransaction = {
-      // membuat transaction id secara otomatis menggunakan timestamp dengan format "tx-(timestamp)"
-      id: "tx-" + Date.now(),
-      // ambil semua user input
-      ...formData,
-      // ubah value nominal menjadi tipe data number
-      amount: Number(formData.amount),
-    };
-
-    // masukkan transaction ke daftar transaksi
-    transactionList.push(newTransaction);
+  }
+  // jika form valid
+  else {
+    // tambahkan transaksi baru ke daftar transaksi
+    addTransaction(transactionForm);
 
     // jalankan function updateTransaction
     updateTransaction(transactionList);
