@@ -13,6 +13,7 @@ const expense = document.querySelector("#expense-amount");
 const transactionForm = document.querySelector("#transactionForm");
 
 // riwayat transaksi
+const transactionHistory = document.querySelector(".tracker-history__grid");
 const incomeList = document.querySelector("#incomeList");
 const expenseList = document.querySelector("#expenseList");
 
@@ -160,6 +161,32 @@ function sumBalance() {
   expense.textContent = `Rp. ${totalExpense.toLocaleString("id-ID")}`;
 }
 
+// ===============
+// HAPUS TRANSAKSI
+// ===============
+
+function deleteTransaction(transactionId) {
+  transactionList = transactionList.filter(
+    (transaction) => transaction.id !== transactionId,
+  );
+}
+
+// ===================
+// UBAH TYPE TRANSAKSI
+// ===================
+
+function changeTransactionType(transactionId) {
+  const transactionListItem = transactionList.find(
+    (transaction) => transaction.id === transactionId,
+  );
+
+  if (transactionListItem.type === "income") {
+    transactionListItem.type = "expense";
+  } else {
+    transactionListItem.type = "income";
+  }
+}
+
 // ==================================================================
 // UPDATE ARRAY, LOCAL STORAGE, DAN UI SETIAP ADA PERUBAHAN TRANSAKSI
 // ==================================================================
@@ -203,6 +230,40 @@ transactionForm.addEventListener("submit", function (e) {
 
     // reset form
     transactionForm.reset();
+  }
+});
+
+// ===================================
+// EVENT LISTENER HAPUS TRANSAKSI
+// ===================================
+
+transactionHistory.addEventListener("click", function (e) {
+  const deleteButton = e.target.closest(
+    "[data-testid='transactionItemDeleteButton']",
+  );
+  if (deleteButton) {
+    const transactionItem = e.target.closest("[data-testid='transactionItem']");
+    const transactionId = transactionItem.dataset.transactionId;
+
+    deleteTransaction(transactionId);
+    updateTransaction(transactionList);
+  }
+});
+
+// ==================================
+// EVENT LISTENER UBAH TYPE TRANSAKSI
+// ==================================
+
+transactionHistory.addEventListener("click", function (e) {
+  const changeButton = e.target.closest(
+    "[data-testid='transactionItemEditTypeButton']",
+  );
+  if (changeButton) {
+    const transactionItem = e.target.closest("[data-testid='transactionItem']");
+    const transactionId = transactionItem.dataset.transactionId;
+
+    changeTransactionType(transactionId);
+    updateTransaction(transactionList);
   }
 });
 
