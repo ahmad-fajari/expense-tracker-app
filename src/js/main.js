@@ -31,11 +31,11 @@ dateInput.setAttribute("max", dateToday);
 // FORM VALIDATIONS PENCATATAN TRANSAKSI
 // =====================================
 function validateTransaction(inputElement) {
-  // 3. Evaluate using Constraint Validation API
+  // Evaluasi dengan Constraint Validation API
   if (!inputElement.validity.valid) {
     let errorMessage = "";
 
-    // 4. Determine which error message appears based on the type of error
+    // tentukan error message berdasarkan error type
     if (inputElement.validity.valueMissing) {
       errorMessage = inputElement.dataset.errorValue;
     } else if (inputElement.validity.rangeUnderflow) {
@@ -61,25 +61,6 @@ function generateTransactionId() {
   return "tx-" + Date.now();
 }
 
-// ====================================
-// TAMBAH TRANSAKSI KE DAFTAR TRANSAKSI
-// ====================================
-
-function addTransaction(transaction) {
-  // ambil data dari user input
-  const formDataRaw = new FormData(transactionForm);
-  const formData = Object.fromEntries(formDataRaw);
-
-  // tambahkan id dan ubah format nominal
-  const newTransaction = {
-    id: generateTransactionId(),
-    ...formData,
-    amount: Number(formData.amount),
-  };
-
-  transactionList.push(newTransaction);
-}
-
 // ================
 // RENDER TRANSAKSI
 // ================
@@ -92,7 +73,7 @@ function renderTransaction() {
     // clone element dari template
     const transactionItem = transactionTemplate.content.cloneNode(true);
 
-    // element yang akan diisi data dari form user input
+    // element yang akan diisi data dari form
     const transactionItemWrapper = transactionItem.querySelector(
       '[data-testid="transactionItem"]',
     );
@@ -109,14 +90,14 @@ function renderTransaction() {
       '[data-testid="transactionItemType"]',
     );
 
-    // isi transaksi dari transactionList
+    // isi detail transaksi
     transactionItemWrapper.setAttribute("data-transaction-id", transaction.id);
     transactionItemTitle.textContent = transaction.title;
     transactionItemAmount.textContent = `Rp. ${transaction.amount.toLocaleString("id-ID")}`;
     transactionItemDate.textContent = transaction.date;
     transactionItemType.textContent = transaction.type;
 
-    // masukkan data transaksi ke kolom yang sesuai dan sesuaikan warnanya
+    // tampilkan transaksi di history sesuai kolomnya dan sesuaikan warna pada nominal
     if (transaction.type === "income") {
       transactionItemAmount.classList.add(
         "tracker-transaction-item__amount__income",
@@ -137,14 +118,15 @@ function renderTransaction() {
   });
 }
 
-// ==================
-// HITUNG TOTAL SALDO
-// ==================
+// ================
+// UPDATE DASHBOARD
+// ================
 
-function sumBalance() {
+function updateSummaryDashboard() {
   let totalIncome = 0;
   let totalExpense = 0;
 
+  // hitung total saldo
   transactionList.forEach(function (transaction) {
     if (transaction.type === "income") {
       totalIncome += transaction.amount;
@@ -159,6 +141,25 @@ function sumBalance() {
   balance.textContent = `Rp. ${totalBalance.toLocaleString("id-ID")}`;
   income.textContent = `Rp. ${totalIncome.toLocaleString("id-ID")}`;
   expense.textContent = `Rp. ${totalExpense.toLocaleString("id-ID")}`;
+}
+
+// ================
+// TAMBAH TRANSAKSI
+// ================
+
+function addTransaction(transaction) {
+  // ambil data dari user input
+  const formDataRaw = new FormData(transactionForm);
+  const formData = Object.fromEntries(formDataRaw);
+
+  // tambahkan id dan ubah format nominal
+  const newTransaction = {
+    id: generateTransactionId(),
+    ...formData,
+    amount: Number(formData.amount),
+  };
+
+  transactionList.push(newTransaction);
 }
 
 // ===============
@@ -198,11 +199,11 @@ function updateTransaction(newTransactionList) {
   // simpan daftar transaksi ke local storage
   localStorage.setItem(STORAGE_KEY, JSON.stringify(transactionList));
 
-  // tampilkan ke ui
+  // tampilkan history transaksi
   renderTransaction();
 
-  // hitung saldo
-  sumBalance();
+  // tampilkan total saldo di dashboard
+  updateSummaryDashboard();
 }
 
 // ========================================
@@ -225,7 +226,7 @@ transactionForm.addEventListener("submit", function (e) {
     // tambahkan transaksi baru ke daftar transaksi
     addTransaction(transactionForm);
 
-    // jalankan function updateTransaction
+    // siknronisasi perubahan
     updateTransaction(transactionList);
 
     // reset form
@@ -245,7 +246,9 @@ transactionHistory.addEventListener("click", function (e) {
     const transactionItem = e.target.closest("[data-testid='transactionItem']");
     const transactionId = transactionItem.dataset.transactionId;
 
+    // hapus transaksi dari daftar transaksi
     deleteTransaction(transactionId);
+    // siknronisasi perubahan
     updateTransaction(transactionList);
   }
 });
@@ -262,7 +265,9 @@ transactionHistory.addEventListener("click", function (e) {
     const transactionItem = e.target.closest("[data-testid='transactionItem']");
     const transactionId = transactionItem.dataset.transactionId;
 
+    // ubah type transaksi dari daftar transaksi
     changeTransactionType(transactionId);
+    // siknronisasi perubahan
     updateTransaction(transactionList);
   }
 });
@@ -273,7 +278,7 @@ transactionHistory.addEventListener("click", function (e) {
 
 function init() {
   renderTransaction();
-  sumBalance();
+  updateSummaryDashboard();
 }
 
 init();
