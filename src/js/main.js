@@ -1,6 +1,7 @@
 // daftar transaksi
 const STORAGE_KEY = "transactions";
 let transactionList = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+let editingId = null;
 
 console.log(transactionList);
 
@@ -144,22 +145,45 @@ function updateSummaryDashboard() {
 }
 
 // ================
-// TAMBAH TRANSAKSI
+// SIMPAN TRANSAKSI
 // ================
 
-function addTransaction(transaction) {
+function saveTransaction(transaction) {
   // ambil data dari user input
   const formDataRaw = new FormData(transactionForm);
   const formData = Object.fromEntries(formDataRaw);
 
-  // tambahkan id dan ubah format nominal
-  const newTransaction = {
-    id: generateTransactionId(),
-    ...formData,
-    amount: Number(formData.amount),
-  };
+  // MODE EDIT TRANSAKSI
+  if (editingId != null) {
+    const indexTransactionToEdit = transactionList.findIndex(
+      (transaction) => transaction.id === editingId,
+    );
 
-  transactionList.push(newTransaction);
+    const updatedTransaction = {
+      id: editingId, // gunakan id yang sama
+      ...formData,
+      amount: Number(formData.amount), // ubah format nominal dari string menjadi number
+    };
+
+    transactionList[indexTransactionToEdit] = updatedTransaction;
+
+    editingId = null;
+
+    const submitButton = document.querySelector(
+      '[data-testid="transactionFormSubmitButton"]',
+    );
+    submitButton.textContent = "Catat Transaksi";
+  }
+  // MODE SIMPAN TRANSAKSI
+  else {
+    const newTransaction = {
+      id: generateTransactionId(), // tambahkan id dari timestamp
+      ...formData,
+      amount: Number(formData.amount), // ubah format nominal dari string menjadi number
+    };
+
+    transactionList.push(newTransaction);
+  }
 }
 
 // ===============
@@ -188,6 +212,41 @@ function changeTransactionType(transactionId) {
   }
 }
 
+function editTransaction(transactionId) {
+  const transactionListItem = transactionList.find(
+    (transaction) => transaction.id === transactionId,
+  );
+
+  // input yang akan diedit
+  const transactionItemTitle = document.querySelector(
+    '[data-testid="transactionFormTitleInput"]',
+  );
+  const transactionItemAmount = document.querySelector(
+    '[data-testid="transactionFormAmountInput"]',
+  );
+  const transactionItemDate = document.querySelector(
+    '[data-testid="transactionFormDateInput"]',
+  );
+  const transactionItemType = document.querySelector(
+    '[data-testid="transactionFormTypeSelect"]',
+  );
+
+  // mengembalikan value input ke form
+  transactionItemTitle.value = transactionListItem.title;
+  transactionItemAmount.value = transactionListItem.amount;
+  transactionItemDate.value = transactionListItem.date;
+  transactionItemType.value = transactionListItem.type;
+
+  editingId = transactionId;
+
+  const submitButton = document.querySelector(
+    '[data-testid="transactionFormSubmitButton"]',
+  );
+  submitButton.textContent = "Simpan Perubahan";
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
 // ==================================================================
 // UPDATE ARRAY, LOCAL STORAGE, DAN UI SETIAP ADA PERUBAHAN TRANSAKSI
 // ==================================================================
@@ -213,43 +272,35 @@ function updateTransaction(newTransactionList) {
 transactionForm.addEventListener("submit", function (e) {
   e.preventDefault();
 
-  // validasi form
+  // FORM VALIDATION
   if (!transactionForm.checkValidity()) {
     // tampilkan alert jika form tidak valid
     const errorInputs = transactionForm.querySelectorAll(":invalid");
     errorInputs.forEach((input) => {
       validateTransaction(input);
     });
+    return;
   }
-  // jika form valid
-  else {
-    // tambahkan transaksi baru ke daftar transaksi
-    addTransaction(transactionForm);
 
-    // siknronisasi perubahan
-    updateTransaction(transactionList);
+  saveTransaction(transactionForm); // simpan transaksi
 
-    // reset form
-    transactionForm.reset();
-  }
+  updateTransaction(transactionList); // sinkronisasi perubahan
+
+  transactionForm.reset(); // reset form
 });
 
-// ===================================
-// EVENT LISTENER HAPUS TRANSAKSI
-// ===================================
+// =============================
+// EVENT LISTENER EDIT TRANSAKSI
+// =============================
 
 transactionHistory.addEventListener("click", function (e) {
-  const deleteButton = e.target.closest(
-    "[data-testid='transactionItemDeleteButton']",
-  );
-  if (deleteButton) {
+  const editButton = e.target.closest("#edit-button");
+
+  if (editButton) {
     const transactionItem = e.target.closest("[data-testid='transactionItem']");
     const transactionId = transactionItem.dataset.transactionId;
 
-    // hapus transaksi dari daftar transaksi
-    deleteTransaction(transactionId);
-    // siknronisasi perubahan
-    updateTransaction(transactionList);
+    editTransaction(transactionId); // kembalikan ke form input
   }
 });
 
@@ -261,14 +312,33 @@ transactionHistory.addEventListener("click", function (e) {
   const changeButton = e.target.closest(
     "[data-testid='transactionItemEditTypeButton']",
   );
+
   if (changeButton) {
     const transactionItem = e.target.closest("[data-testid='transactionItem']");
     const transactionId = transactionItem.dataset.transactionId;
 
-    // ubah type transaksi dari daftar transaksi
-    changeTransactionType(transactionId);
-    // siknronisasi perubahan
-    updateTransaction(transactionList);
+    changeTransactionType(transactionId); // ubah type transaksi dari daftar transaksi
+
+    updateTransaction(transactionList); // siknronisasi perubahan
+  }
+});
+
+// ==============================
+// EVENT LISTENER HAPUS TRANSAKSI
+// ==============================
+
+transactionHistory.addEventListener("click", function (e) {
+  const deleteButton = e.target.closest(
+    "[data-testid='transactionItemDeleteButton']",
+  );
+
+  if (deleteButton) {
+    const transactionItem = e.target.closest("[data-testid='transactionItem']");
+    const transactionId = transactionItem.dataset.transactionId;
+
+    deleteTransaction(transactionId); // hapus transaksi dari daftar transaksi
+
+    updateTransaction(transactionList); // siknronisasi perubahan
   }
 });
 
