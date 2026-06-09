@@ -71,18 +71,20 @@
 
     <!-- header -->
     <header class="tracker-header">
-      <h1 class="tracker-header__title">Tracker<span>.io</span></h1>
-      <div class="tracker-header__user">
-        <div class="tracker-header__user-info">
-          <span class="tracker-header__greeting">Halo, <strong>Ahmad Fajari</strong></span>
-          <span>(ahmad_fajari)</span>
-          <span class="tracker-header__date">Bulan Ini</span>
-        </div>
-        <div class="tracker-header__avatar">
-          <svg xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.-->
-            <path d="M320 312C386.3 312 440 258.3 440 192C440 125.7 386.3 72 320 72C253.7 72 200 125.7 200 192C200 258.3 253.7 312 320 312zM290.3 368C191.8 368 112 447.8 112 546.3C112 562.7 125.3 576 141.7 576L498.3 576C514.7 576 528 562.7 528 546.3C528 447.8 448.2 368 349.7 368L290.3 368z" />
-          </svg>
+      <div class="tracker-header__wrapper">
+        <h1 class="tracker-header__title">Tracker<span>.io</span></h1>
+        <div class="tracker-header__user">
+          <div class="tracker-header__user-info">
+            <span class="tracker-header__greeting">Halo, <strong>Ahmad Fajari</strong></span>
+            <span>(ahmad_fajari)</span>
+            <span class="tracker-header__date">Bulan Ini</span>
+          </div>
+          <div class="tracker-header__avatar">
+            <svg xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.-->
+              <path d="M320 312C386.3 312 440 258.3 440 192C440 125.7 386.3 72 320 72C253.7 72 200 125.7 200 192C200 258.3 253.7 312 320 312zM290.3 368C191.8 368 112 447.8 112 546.3C112 562.7 125.3 576 141.7 576L498.3 576C514.7 576 528 562.7 528 546.3C528 447.8 448.2 368 349.7 368L290.3 368z" />
+            </svg>
+          </div>
         </div>
       </div>
     </header>
@@ -104,14 +106,14 @@
         </div>
 
         <!-- income -->
-        <div class="tracker-summary__stat">
+        <div class="tracker-summary__stat tracker-summary__stat--income">
           <h3 class="tracker-summary__label">Pemasukan</h3>
           <p id="income-amount"
             class="tracker-summary__stat-amount tracker-summary__stat-amount--income"></p>
         </div>
 
         <!-- expense -->
-        <div class="tracker-summary__stat">
+        <div class="tracker-summary__stat tracker-summary__stat--expense">
           <h3 class="tracker-summary__label">Pengeluaran</h3>
           <p id="expense-amount"
             class="tracker-summary__stat-amount tracker-summary__stat-amount--expense"></p>
@@ -188,8 +190,24 @@
                   disabled
                   selected
                   hidden>Pilih klasifikasi transaksi</option>
-                <option value="income">Uang Masuk (+)</option>
-                <option value="expense">Uang Keluar (-)</option>
+                <option value="income">
+                  <span class="option-icon income">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 640 640">
+                      <path d="M352 128C352 110.3 337.7 96 320 96C302.3 96 288 110.3 288 128L288 288L128 288C110.3 288 96 302.3 96 320C96 337.7 110.3 352 128 352L288 352L288 512C288 529.7 302.3 544 320 544C337.7 544 352 529.7 352 512L352 352L512 352C529.7 352 544 337.7 544 320C544 302.3 529.7 288 512 288L352 288L352 128z" />
+                    </svg>
+                  </span>
+                  <span class="option-label">Uang Masuk</span>
+                </option>
+                <option value="expense">
+                  <span class="option-icon expense">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 640 640">
+                      <path d="M96 320C96 302.3 110.3 288 128 288L512 288C529.7 288 544 302.3 544 320C544 337.7 529.7 352 512 352L128 352C110.3 352 96 337.7 96 320z" />
+                    </svg>
+                  </span>
+                  <span class="option-label">Uang Keluar</span>
+                </option>
               </select>
             </div>
 
@@ -214,7 +232,7 @@
             <input type="search"
               id="searchTransactionFormTitleInput"
               data-testid="searchTransactionFormTitleInput"
-              class="tracker-form__input"
+              class="tracker-search__input"
               placeholder="Cari transaksi berdasarkan judul..."
               aria-label="Kata kunci pencarian transaksi">
             <button type="submit"
@@ -223,7 +241,7 @@
               aria-label="Mulai Pencarian"
               title="Cari transaksi">
               <svg xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.-->
+                viewBox="0 0 640 640">
                 <path d="M480 272C480 317.9 465.1 360.3 440 394.7L566.6 521.4C579.1 533.9 579.1 554.2 566.6 566.7C554.1 579.2 533.8 579.2 521.3 566.7L394.7 440C360.3 465.1 317.9 480 272 480C157.1 480 64 386.9 64 272C64 157.1 157.1 64 272 64C386.9 64 480 157.1 480 272zM272 416C351.5 416 416 351.5 416 272C416 192.5 351.5 128 272 128C192.5 128 128 192.5 128 272C128 351.5 192.5 416 272 416z" />
               </svg>
             </button>
@@ -299,7 +317,7 @@
 
         <!-- edit button -->
         <button type="button"
-          class="tracker-transaction-item__btn"
+          class="tracker-transaction-item__btn action-button"
           aria-label="Edit Transaksi"
           title="Edit Transaksi">
           <svg xmlns="http://www.w3.org/2000/svg"
@@ -311,7 +329,7 @@
         <!-- ubah transaksi button -->
         <button type="button"
           data-testid="transactionItemEditTypeButton"
-          class="tracker-transaction-item__btn"
+          class="tracker-transaction-item__btn action-button"
           aria-label="Ubah Tipe Transaksi"
           title="Ubah Tipe Transaksi">
           <svg xmlns="http://www.w3.org/2000/svg"
@@ -323,7 +341,7 @@
         <!-- hapus transaksi button -->
         <button type="button"
           data-testid="transactionItemDeleteButton"
-          class="tracker-transaction-item__btn"
+          class="tracker-transaction-item__btn delete-button"
           aria-label="Hapus Transaksi"
           title="Hapus Transaksi">
           <svg xmlns="http://www.w3.org/2000/svg"

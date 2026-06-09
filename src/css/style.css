@@ -1,28 +1,66 @@
-/*  =========================================================
-    Expense Tracker App — style.css
-    Penamaan class menggunakan konvensi BEM dengan namespace "tracker"
-    ========================================================= */
-
 /*  ============================
     CUSTOM PROPERTIES (VARIABLE) 
     ============================ */
 :root {
   /* color */
-  --bg-page: #f6f7f9;
-  --bg-card: #ffffff;
+  color-scheme: light dark;
 
-  --text-dark: #09090b;
-  --text-muted: #71717a;
+  --bg-page: light-dark(oklch(0.92 0.005 130), oklch(0.1 0.005 130));
+  --bg-surface: light-dark(oklch(0.96 0.005 130), oklch(0.15 0.005 130));
+  --bg-card: light-dark(oklch(1 0.005 130), oklch(0.2 0.005 130));
 
-  --accent-blue: #2563eb;
-  --accent-light: #eff6ff;
+  --text: light-dark(oklch(0.15 0.01 130), oklch(0.96 0.01 130));
+  --text-inverse: light-dark(oklch(0.96 0.01 130), oklch(0.15 0.01 130));
+  --text-muted: light-dark(oklch(0.4 0.01 130), oklch(0.76 0.01 130));
+  --text-dark: oklch(0.15 0.01 130);
 
-  --color-income: #10b981;
-  --bg-income: #ecfdf5;
-  --color-expense: #f43f5e;
-  --bg-expense: #fff1f2;
+  --primary: light-dark(oklch(0.82 0.1 130), oklch(0.77 0.1 130));
+  --primary-bg: oklch(0.97 0.02 130);
+  --primary-text: light-dark(oklch(0.63 0.13 132), oklch(0.82 0.1 130));
+  --primary-hover: oklch(0.72 0.16 132);
 
-  --border-light: #e4e4e7;
+  --secondary: light-dark(oklch(0.55 0.1 109), oklch(0.85 0.09 108));
+  --secondary-text-dark: oklch(0.44 0.07 109);
+  --secondary-hover: light-dark(oklch(0.89 0.07 108), oklch(0.85 0.07 108));
+  --secondary-inverse: light-dark(oklch(0.85 0.09 108), oklch(0.55 0.1 109));
+
+  --delete-button: light-dark(oklch(0.48 0.19 24), oklch(0.65 0.2 18));
+  --delete-text-dark: oklch(0.36 0.14 22);
+  --delete-hover: oklch(0.95 0.03 7);
+
+  --color-income: light-dark(oklch(0.44 0.12 254), oklch(0.67 0.15 252));
+  --income-bg: oklch(0.96 0.02 250);
+  --income-text-dark: oklch(0.53 0.17 255);
+
+  --color-expense: light-dark(oklch(0.48 0.15 41), oklch(0.71 0.15 44));
+  --expense-bg: oklch(0.96 0.02 48);
+  --expense-text-dark: oklch(0.48 0.15 41);
+
+  --highlight: light-dark(oklch(1 0.01 130), oklch(0.5 0.01 130));
+  --border: light-dark(oklch(0.6 0.01 130), oklch(0.4 0.01 130));
+  --border-muted: light-dark(oklch(0.7 0.01 130), oklch(0.3 0.01 130));
+
+  /* shadow */
+
+  --shadow-color: 90deg 8% 10%;
+  --shadow-elevation-low:
+    0.3px 0.5px 0.7px hsl(var(--shadow-color) / 0.34),
+    0.4px 0.8px 1px -1.2px hsl(var(--shadow-color) / 0.34),
+    1px 2px 2.5px -2.5px hsl(var(--shadow-color) / 0.34);
+  --shadow-elevation-medium:
+    0.3px 0.5px 0.6px hsl(var(--shadow-color) / 0.44),
+    0.6px 1.2px 1.3px -1.2px hsl(var(--shadow-color) / 0.38),
+    1.8px 3.5px 3.8px -2.4px hsl(var(--shadow-color) / 0.31),
+    4.7px 9.3px 10px -3.6px hsl(var(--shadow-color) / 0.24);
+  --shadow-elevation-high:
+    0.3px 0.5px 0.5px hsl(var(--shadow-color) / 0.38),
+    0.7px 1.3px 1.4px -0.6px hsl(var(--shadow-color) / 0.35),
+    1.3px 2.6px 2.7px -1.1px hsl(var(--shadow-color) / 0.31),
+    2.4px 4.8px 4.9px -1.7px hsl(var(--shadow-color) / 0.28),
+    4.4px 8.8px 9px -2.2px hsl(var(--shadow-color) / 0.25),
+    7.5px 15px 15.3px -2.8px hsl(var(--shadow-color) / 0.21),
+    12.1px 24.2px 24.8px -3.3px hsl(var(--shadow-color) / 0.18),
+    18.5px 37px 37.9px -3.9px hsl(var(--shadow-color) / 0.14);
 
   /* font */
   --font-family: "Outfit", sans-serif;
@@ -78,7 +116,7 @@ body {
 
   /* color */
   background-color: var(--bg-page);
-  color: var(--text-dark);
+  color: var(--text);
 
   /* font */
   font-family: var(--font-family);
@@ -100,6 +138,9 @@ button,
 textarea,
 select {
   font: inherit;
+  color: inherit;
+  background-color: inherit;
+  border: none;
 }
 
 /* Avoid text overflows */
@@ -146,32 +187,47 @@ h6 {
   display: flex;
   flex-direction: column;
   gap: 1.75rem;
+  padding: 1.5rem;
+  background-color: var(--bg-surface);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-elevation-medium);
 }
 
 /* Kartu dasar yang dipakai bersama di semua section */
 .tracker-summary__balance,
 .tracker-summary__stat,
-.tracker-form-section__card,
-.tracker-search,
 .tracker-transaction-list {
   background: var(--bg-card);
   border-radius: var(--card-radius);
-  border: 1px solid var(--border-light);
+  /* border: 1px solid var(--border); */
   padding: var(--card-padding);
   display: flex;
   flex-direction: column;
   min-inline-size: 0;
+  box-shadow: var(--shadow-elevation-low);
 }
 
 /* =========================================================
   TRACKER HEADER
    ========================================================= */
 .tracker-header {
-  inline-size: 100%;
-  max-inline-size: 80rem;
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+  justify-self: normal;
+  margin-block-start: -1rem;
+  margin-inline: -1rem;
+  background-color: var(--bg-card);
+  box-shadow: var(--shadow-elevation-high);
+}
+
+.tracker-header__wrapper {
+  max-inline-size: 82rem;
   display: flex;
   justify-content: space-between;
+  margin-inline: auto;
   align-items: center;
+  padding: 1rem;
 }
 
 .tracker-header__title {
@@ -181,7 +237,7 @@ h6 {
 }
 
 .tracker-header__title span {
-  color: var(--accent-blue);
+  color: var(--primary-text);
 }
 
 .tracker-header__user {
@@ -203,7 +259,7 @@ h6 {
 
 .tracker-header__greeting {
   font-size: 0.95rem;
-  color: var(--text-dark);
+  color: var(--text);
 }
 
 .tracker-header__date {
@@ -221,7 +277,8 @@ h6 {
   block-size: 3rem;
   border-radius: 50%;
   background-color: var(--bg-card);
-  border: 1px solid var(--border-light);
+  color: var(--primary-text);
+  border: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -231,6 +288,7 @@ h6 {
 .tracker-header__avatar svg {
   inline-size: 2rem;
   block-size: 2rem;
+  fill: currentColor;
 }
 
 /* =========================================================
@@ -255,35 +313,58 @@ h6 {
   text-transform: uppercase;
   color: var(--text-muted);
   letter-spacing: 0.05em;
-  margin-bottom: 0.75rem;
+  margin-block-end: 0.75rem;
 }
 
 /* saldo */
 .tracker-summary__balance {
   grid-column: span 2;
-  background: linear-gradient(
-    145deg,
-    var(--bg-card) 40%,
-    var(--accent-light) 100%
-  );
+
+  @media (prefers-color-scheme: light) {
+    background: linear-gradient(
+      145deg,
+      var(--bg-card) 40%,
+      var(--primary-bg) 100%
+    );
+  }
 
   @media (width >= 64rem) {
     grid-column: auto;
   }
 }
 
+.tracker-summary__stat--income {
+  @media (prefers-color-scheme: light) {
+    background: linear-gradient(
+      145deg,
+      var(--bg-card) 40%,
+      var(--income-bg) 100%
+    );
+  }
+}
+
+.tracker-summary__stat--expense {
+  @media (prefers-color-scheme: light) {
+    background: linear-gradient(
+      145deg,
+      var(--bg-card) 40%,
+      var(--expense-bg) 100%
+    );
+  }
+}
+
 .tracker-summary__balance-amount {
   font-size: 3.5rem;
   font-weight: 800;
-  letter-spacing: -0.05em;
-  margin-top: auto;
+  letter-spacing: -0.02em;
+  margin-block-start: auto;
 }
 
 .tracker-summary__stat-amount {
   font-size: 2.25rem;
   font-weight: 700;
-  letter-spacing: -0.04em;
-  margin-top: auto;
+  letter-spacing: -0.02em;
+  margin-block-start: auto;
 }
 
 .tracker-summary__stat-amount--income {
@@ -306,7 +387,7 @@ h6 {
   text-transform: uppercase;
   color: var(--text-muted);
   letter-spacing: 0.05em;
-  margin-bottom: 1rem;
+  margin-block-end: 1rem;
 }
 
 /* form */
@@ -349,7 +430,7 @@ h6 {
 .tracker-form__label {
   font-size: 0.85rem;
   font-weight: 500;
-  color: var(--text-dark);
+  color: var(--text);
 }
 
 .tracker-form__input {
@@ -357,29 +438,112 @@ h6 {
   block-size: 3rem;
   padding-inline: 0.75rem;
   border-radius: 12px;
-  border: 1px solid var(--border-light);
-  background: #fcfcfc;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
   font-family: inherit;
   font-size: 0.95rem;
-  outline: none;
   transition: color 0.2s;
 
   &:hover {
     @media (hover: hover) {
-      border-color: var(--accent-blue);
+      border-color: var(--secondary);
+      box-shadow: inset 0 0 0 1px var(--secondary);
     }
   }
 
   &:focus {
-    border-color: var(--accent-blue);
-    background: var(--bg-card);
-    box-shadow: inset 0 0 0 1px var(--accent-blue);
+    outline: none;
+    border-color: var(--secondary);
+    box-shadow: inset 0 0 0 1px var(--secondary);
   }
 }
 
+/* select element */
+select,
+::picker(select) {
+  appearance: base-select;
+}
+
+.tracker-form__field select {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  &::picker-icon {
+    transition: rotate 0.3s;
+  }
+
+  &:open::picker-icon {
+    rotate: 180deg;
+  }
+}
+
+::picker(select) {
+  position-area: block-end span-inline-end;
+  position-try-fallbacks: none;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+select option {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1rem;
+  background-color: var(--bg-card);
+  block-size: 2rem;
+  padding-inline: 1rem;
+  transition: all 0.2s ease-in-out;
+
+  &:not(:last-child) {
+    border-block-end: 1px solid var(--border-muted);
+  }
+
+  &:checked {
+    font-weight: 600;
+  }
+
+  &::checkmark {
+    order: 1;
+    margin-inline-start: auto;
+  }
+
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--secondary-hover);
+      color: var(--text-dark);
+      font-weight: 600;
+    }
+  }
+
+  .income {
+    color: var(--color-income);
+  }
+
+  .expense {
+    color: var(--color-expense);
+  }
+
+  &:hover {
+    .income {
+      color: var(--income-text-dark);
+    }
+
+    .expense {
+      color: var(--expense-text-dark);
+    }
+  }
+}
+
+.option-icon svg {
+  inline-size: 1rem;
+  block-size: 1rem;
+  fill: currentColor;
+}
+
+/* submit buton */
 .tracker-form__submit {
-  background: var(--text-dark);
-  color: #fff;
+  background: var(--primary);
+  color: var(--text-dark);
   border: none;
   block-size: 3rem;
   border-radius: 12px;
@@ -387,12 +551,17 @@ h6 {
   font-size: 0.95rem;
   cursor: pointer;
   transition:
-    transform 0.1s,
-    opacity 0.2s;
+    transform 0.1s ease-in-out,
+    background-color 0.2s ease-in-out;
 
-  &:hover,
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--primary-hover);
+    }
+  }
+
   &:focus-visible {
-    opacity: 0.85;
+    background-color: var(--primary-hover);
   }
 
   &:active {
@@ -410,7 +579,6 @@ h6 {
 
 .tracker-search {
   inline-size: 100%;
-  padding: 1.25rem 1.5rem;
 }
 
 .tracker-search__form {
@@ -418,18 +586,36 @@ h6 {
   grid-template-columns: 1fr auto;
 }
 
-.tracker-search__form .tracker-form__input {
-  background: #fafafa;
+.tracker-search__input {
+  inline-size: 100%;
+  block-size: 3rem;
+  padding-inline: 0.75rem;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
   border-inline-end: none;
-  border-radius: 0;
   border-start-start-radius: 12px;
   border-end-start-radius: 12px;
+  transition:
+    border-color 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    @media (hover: hover) {
+      border-color: var(--secondary);
+      box-shadow:
+        inset 1px 0 0 0 var(--secondary) /* Kiri */,
+        inset 0 1px 0 0 var(--secondary) /* Atas */,
+        inset 0 -1px 0 0 var(--secondary); /* Bawah */
+    }
+  }
 
   &:focus {
+    outline: none;
+    border-color: var(--secondary);
     box-shadow:
-      inset 1px 0 0 0 var(--accent-blue) /* Kiri */,
-      inset 0 1px 0 0 var(--accent-blue) /* Atas */,
-      inset 0 -1px 0 0 var(--accent-blue); /* Bawah */
+      inset 1px 0 0 0 var(--secondary) /* Kiri */,
+      inset 0 1px 0 0 var(--secondary) /* Atas */,
+      inset 0 -1px 0 0 var(--secondary); /* Bawah */
   }
 }
 
@@ -437,8 +623,9 @@ h6 {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg-page);
-  border: 1px solid var(--border-light);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  fill: var(--text-muted);
   inline-size: 3rem;
   border-inline-start: none;
   border-start-end-radius: 12px;
@@ -446,28 +633,41 @@ h6 {
   font-family: inherit;
   font-weight: 600;
   cursor: pointer;
-  transition: color 0.2s;
+  transition:
+    color 0.2s ease-in-out,
+    background-color 0.2s ease-in-out,
+    border-color 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
 
   &:hover {
-    background-color: #e4e4e7;
+    background-color: var(--secondary-hover);
+    color: var(--text-dark);
   }
 }
 
-.tracker-search__form .tracker-form__input:focus + .tracker-search__submit {
-  border-color: var(--accent-blue);
-  box-shadow:
-    inset -1px 0 0 0 var(--accent-blue) /* Kanan */,
-    inset 0 1px 0 0 var(--accent-blue) /* Atas */,
-    inset 0 -1px 0 0 var(--accent-blue); /* Bawah */
-}
+.tracker-search__form:has(:focus),
+.tracker-search__form:has(:hover) {
+  .tracker-search__input {
+    border-color: var(--secondary);
+    box-shadow:
+      inset 1px 0 0 0 var(--secondary) /* Kiri */,
+      inset 0 1px 0 0 var(--secondary) /* Atas */,
+      inset 0 -1px 0 0 var(--secondary); /* Bawah */
+  }
 
-.tracker-search__form .tracker-form__input:hover + .tracker-search__submit {
-  border-color: var(--accent-blue);
+  .tracker-search__submit {
+    border-color: var(--secondary);
+    box-shadow:
+      inset -1px 0 0 0 var(--secondary) /* Kanan */,
+      inset 0 1px 0 0 var(--secondary) /* Atas */,
+      inset 0 -1px 0 0 var(--secondary); /* Bawah */
+  }
 }
 
 .tracker-search__submit svg {
   inline-size: 1.5rem;
   block-size: 1.5rem;
+  fill: currentColor;
 }
 
 /* =========================================================
@@ -492,7 +692,7 @@ h6 {
 .tracker-transaction-list__header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 0.75rem;
+  margin-block-end: 0.75rem;
 }
 
 .tracker-transaction-list__title {
@@ -515,13 +715,12 @@ h6 {
 /* wrapper kartu transaksi */
 .tracker-transaction-item {
   display: grid;
-  /* grid-template-columns: 1fr auto; */
   align-items: center;
   column-gap: 2rem;
   padding: 0.75rem 0;
 
   &:not(:last-child) {
-    border-bottom: 1px solid var(--border-light);
+    border-block-end: 1px solid var(--border-muted);
   }
 
   @container (width >= 32rem) {
@@ -543,13 +742,13 @@ h6 {
 
 /* icon kartu income */
 .tracker-transaction-item__icon__income {
-  background: var(--bg-income);
+  background: var(--income-bg);
   color: var(--color-income);
 }
 
 /* icon kartu expense */
 .tracker-transaction-item__icon__expense {
-  background: var(--bg-expense);
+  background: var(--expense-bg);
   color: var(--color-expense);
 }
 
@@ -557,15 +756,14 @@ h6 {
 .tracker-transaction-item__detail {
   display: grid;
   grid-template-columns: 1fr;
-  justify-items: start;
+  align-items: center;
   gap: 1rem;
   flex: 1;
   min-inline-size: 0;
 
-  @container (width >= 32rem) {
-    grid-template-columns: 2fr repeat(2, 1fr);
+  @container (width >= 23rem) {
+    grid-template-columns: auto auto 5.5rem;
     justify-items: end;
-    align-items: center;
   }
 }
 
@@ -574,7 +772,7 @@ h6 {
   font-weight: 600;
   font-size: 1.05rem;
 
-  @container (width >= 32rem) {
+  @container (width >= 23rem) {
     justify-self: start;
   }
 }
@@ -583,15 +781,6 @@ h6 {
 .tracker-transaction-item__date {
   font-size: 0.8rem;
   color: var(--text-muted);
-}
-
-/* entah ini class buat apa */
-.tracker-transaction-item__right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.25rem;
-  flex-shrink: 0;
 }
 
 /* nominal transaksi */
@@ -620,6 +809,9 @@ h6 {
 
   @container (width >= 32rem) {
     flex-direction: row;
+  }
+
+  @media (width >= 40rem) {
     gap: 0.25rem;
   }
 }
@@ -629,30 +821,41 @@ h6 {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg-page);
-  border: 1px solid var(--border-light);
   block-size: 2rem;
   inline-size: 2rem;
-  border-radius: 6px;
+  border-radius: 50%;
   cursor: pointer;
   transition:
     background-color 0.2s,
     color 0.2s;
-
-  &:hover {
-    background-color: var(--border-light);
-    color: var(--text-dark);
-  }
-}
-
-/* button hapus */
-.tracker-transaction-item__btn:last-child {
-  inline-size: 3.5rem;
 }
 
 .tracker-transaction-item__btn svg {
   inline-size: 1.5rem;
   block-size: 1.5rem;
+  fill: currentColor;
+}
+
+.action-button {
+  color: var(--secondary);
+
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--secondary-hover);
+      color: var(--secondary-text-dark);
+    }
+  }
+}
+
+.delete-button {
+  color: var(--delete-button);
+
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--delete-hover);
+      color: var(--delete-text-dark);
+    }
+  }
 }
 
 /* =========================================================
@@ -679,4 +882,12 @@ h6 {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+.income {
+  color: var(--color-income);
+}
+
+.expense {
+  color: var(--color-expense);
 }
