@@ -13,6 +13,9 @@ const expense = document.querySelector("#expense-amount");
 // form pencatatan transaksi
 const transactionForm = document.querySelector("#transactionForm");
 
+// pencarian transaksi
+const searchForm = document.querySelector("#searchTransactionForm");
+
 // riwayat transaksi
 const transactionHistory = document.querySelector(".tracker-history__grid");
 const incomeList = document.querySelector("#incomeList");
@@ -66,11 +69,11 @@ function generateTransactionId() {
 // RENDER TRANSAKSI
 // ================
 
-function renderTransaction() {
+function renderTransaction(renderedTransaction = transactionList) {
   incomeList.innerHTML = "";
   expenseList.innerHTML = "";
 
-  transactionList.forEach(function (transaction) {
+  renderedTransaction.forEach(function (transaction) {
     // clone element dari template
     const transactionItem = transactionTemplate.content.cloneNode(true);
 
@@ -144,6 +147,20 @@ function updateSummaryDashboard() {
   expense.textContent = `Rp. ${totalExpense.toLocaleString("id-ID")}`;
 }
 
+// ==============
+// CARI TRANSAKSI
+// ==============
+
+function searchTransaction(keywords) {
+  const searchedTransaction = transactionList.filter(function (transaction) {
+    return transaction.title.toLowerCase().includes(keywords);
+  });
+
+  console.log("Hasil array setelah difilter:", searchedTransaction);
+
+  renderTransaction(searchedTransaction);
+}
+
 // ================
 // SIMPAN TRANSAKSI
 // ================
@@ -186,31 +203,9 @@ function saveTransaction(transaction) {
   }
 }
 
-// ===============
-// HAPUS TRANSAKSI
-// ===============
-
-function deleteTransaction(transactionId) {
-  transactionList = transactionList.filter(
-    (transaction) => transaction.id !== transactionId,
-  );
-}
-
-// ===================
-// UBAH TYPE TRANSAKSI
-// ===================
-
-function changeTransactionType(transactionId) {
-  const transactionListItem = transactionList.find(
-    (transaction) => transaction.id === transactionId,
-  );
-
-  if (transactionListItem.type === "income") {
-    transactionListItem.type = "expense";
-  } else {
-    transactionListItem.type = "income";
-  }
-}
+// ==============
+// EDIT TRANSAKSI
+// ==============
 
 function editTransaction(transactionId) {
   const transactionListItem = transactionList.find(
@@ -245,6 +240,32 @@ function editTransaction(transactionId) {
   submitButton.textContent = "Simpan Perubahan";
 
   window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// ===================
+// UBAH TYPE TRANSAKSI
+// ===================
+
+function changeTransactionType(transactionId) {
+  const transactionListItem = transactionList.find(
+    (transaction) => transaction.id === transactionId,
+  );
+
+  if (transactionListItem.type === "income") {
+    transactionListItem.type = "expense";
+  } else {
+    transactionListItem.type = "income";
+  }
+}
+
+// ===============
+// HAPUS TRANSAKSI
+// ===============
+
+function deleteTransaction(transactionId) {
+  transactionList = transactionList.filter(
+    (transaction) => transaction.id !== transactionId,
+  );
 }
 
 // ==================================================================
@@ -287,6 +308,30 @@ transactionForm.addEventListener("submit", function (e) {
   updateTransaction(transactionList); // sinkronisasi perubahan
 
   transactionForm.reset(); // reset form
+});
+
+// ==================================
+// EVENT LISTENER PENCARIAN TRANSAKSI
+// ==================================
+
+searchForm.addEventListener("input", function (e) {
+  const searchInput = searchForm.querySelector(
+    "#searchTransactionFormTitleInput",
+  );
+  const keywords = searchInput.value.toLowerCase();
+
+  searchTransaction(keywords);
+});
+
+searchForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const searchInput = searchForm.querySelector(
+    "#searchTransactionFormTitleInput",
+  );
+  const keywords = searchInput.value.toLowerCase();
+
+  searchTransaction(keywords);
 });
 
 // =============================
