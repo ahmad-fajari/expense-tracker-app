@@ -66,10 +66,10 @@
 
 <body>
 
-  <!-- page layout wrapper -->
+  <!-- TRACKER APP -->
   <div class="tracker-app">
 
-    <!-- header -->
+    <!-- TRACKER HEADER -->
     <header class="tracker-header">
       <div class="tracker-header__wrapper">
         <h1 class="tracker-header__title">Tracker<span>.io</span></h1>
@@ -81,7 +81,7 @@
           </div>
           <div class="tracker-header__avatar">
             <svg xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.-->
+              viewBox="0 0 640 640">
               <path d="M320 312C386.3 312 440 258.3 440 192C440 125.7 386.3 72 320 72C253.7 72 200 125.7 200 192C200 258.3 253.7 312 320 312zM290.3 368C191.8 368 112 447.8 112 546.3C112 562.7 125.3 576 141.7 576L498.3 576C514.7 576 528 562.7 528 546.3C528 447.8 448.2 368 349.7 368L290.3 368z" />
             </svg>
           </div>
@@ -89,196 +89,198 @@
       </div>
     </header>
 
-    <!-- main -->
-    <main>
+    <!-- TRACKER MAIN -->
+    <main class="tracker-main">
 
-      <!-- tracker summary -->
-      <section class="tracker-summary"
+      <!-- TRACKER SUMMARY -->
+      <section class="tracker-main__summary tracker-summary"
         aria-labelledby="summary-heading">
         <h2 id="summary-heading"
           class="visually-hidden">Ringkasan Keuangan</h2>
 
         <!-- balance -->
-        <div class="tracker-summary__balance">
+        <div class="tracker-summary__balance tracker-card">
           <h3 class="tracker-summary__label">Saldo Saat Ini</h3>
           <p id="balance-amount"
             class="tracker-summary__balance-amount"></p>
         </div>
 
         <!-- income -->
-        <div class="tracker-summary__stat tracker-summary__stat--income">
+        <div class="tracker-summary__stat tracker-summary__stat--income tracker-card">
           <h3 class="tracker-summary__label">Pemasukan</h3>
           <p id="income-amount"
-            class="tracker-summary__stat-amount tracker-summary__stat-amount--income"></p>
+            class="tracker-summary__stat-amount income"></p>
         </div>
 
         <!-- expense -->
-        <div class="tracker-summary__stat tracker-summary__stat--expense">
+        <div class="tracker-summary__stat tracker-summary__stat--expense tracker-card">
           <h3 class="tracker-summary__label">Pengeluaran</h3>
           <p id="expense-amount"
-            class="tracker-summary__stat-amount tracker-summary__stat-amount--expense"></p>
+            class="tracker-summary__stat-amount expense"></p>
         </div>
       </section>
 
-      <!-- tracker form -->
-      <section class="tracker-form-section"
+      <!-- TRACKER FORM SECTION -->
+      <section class="tracker-main__form-section tracker-form-section"
         aria-labelledby="form-heading">
-        <div class="tracker-form-section__card">
-          <h2 id="form-heading"
-            class="tracker-form-section__heading">Tambah Pencatatan Baru</h2>
+        <h2 id="form-heading"
+          class="tracker-form-section__heading">Tambah Pencatatan Baru</h2>
 
-          <form id="transactionForm"
-            data-testid="transactionForm"
-            class="tracker-form"
-            novalidate>
+        <!-- TRACKER TRANSACTION FORM -->
+        <form id="transactionForm"
+          data-testid="transactionForm"
+          class="tracker-transaction-form"
+          novalidate>
 
-            <!-- keterangan -->
-            <div class="tracker-form__field">
-              <label class="tracker-form__label"
-                for="transactionFormTitleInput">Keterangan</label>
-              <input type="text"
-                name="title"
-                id="transactionFormTitleInput"
-                data-testid="transactionFormTitleInput"
-                class="tracker-form__input"
-                placeholder="Misal: Makan siang..."
-                required
-                data-error-value="Keterangan wajib diisi">
-            </div>
+          <!-- keterangan -->
+          <div class="tracker-transaction-form__field">
+            <label class="tracker-transaction-form__label"
+              for="transactionFormTitleInput">Keterangan</label>
+            <input type="text"
+              name="title"
+              id="transactionFormTitleInput"
+              data-testid="transactionFormTitleInput"
+              class="tracker-transaction-form__input tracker-input"
+              placeholder="Misal: Makan siang..."
+              required
+              data-error-value="Keterangan wajib diisi">
+          </div>
 
-            <!-- nominal -->
-            <div class="tracker-form__field">
-              <label class="tracker-form__label"
-                for="transactionFormAmountInput">Nominal (Rp)</label>
-              <input type="number"
-                name="amount"
-                id="transactionFormAmountInput"
-                data-testid="transactionFormAmountInput"
-                class="tracker-form__input"
-                placeholder="50000"
-                min="1"
-                required
-                data-error-value="Nominal wajib diisi"
-                data-error-min="Nominal tidak boleh kurang dari Rp. 1">
-            </div>
+          <!-- nominal -->
+          <div class="tracker-transaction-form__field">
+            <label class="tracker-transaction-form__label"
+              for="transactionFormAmountInput">Nominal (Rp)</label>
+            <input type="number"
+              name="amount"
+              id="transactionFormAmountInput"
+              data-testid="transactionFormAmountInput"
+              class="tracker-transaction-form__input tracker-input"
+              placeholder="50000"
+              min="1"
+              required
+              data-error-value="Nominal wajib diisi"
+              data-error-min="Nominal tidak boleh kurang dari Rp. 1">
+          </div>
 
-            <!-- tanggal -->
-            <div class="tracker-form__field">
-              <label class="tracker-form__label"
-                for="transactionFormDateInput">Tanggal</label>
-              <input type="date"
-                name="date"
-                id="transactionFormDateInput"
-                data-testid="transactionFormDateInput"
-                class="tracker-form__input"
-                required
-                data-error-value="Tanggal wajib diisi"
-                data-error-max="Tanggal tidak boleh lebih dari hari ini">
-            </div>
+          <!-- tanggal -->
+          <div class="tracker-transaction-form__field">
+            <label class="tracker-transaction-form__label"
+              for="transactionFormDateInput">Tanggal</label>
+            <input type="date"
+              name="date"
+              id="transactionFormDateInput"
+              data-testid="transactionFormDateInput"
+              class="tracker-transaction-form__input tracker-input"
+              required
+              data-error-value="Tanggal wajib diisi"
+              data-error-max="Tanggal tidak boleh lebih dari hari ini">
+          </div>
 
-            <!-- Klasifikasi -->
-            <div class="tracker-form__field">
-              <label class="tracker-form__label"
-                for="transactionFormTypeSelect">Klasifikasi</label>
-              <select name="type"
-                id="transactionFormTypeSelect"
-                data-testid="transactionFormTypeSelect"
-                class="tracker-form__input"
-                required
-                data-error-value="Klasifikasi transaksi wajib dipilih">
-                <option value=""
-                  disabled
-                  selected
-                  hidden>Pilih klasifikasi transaksi</option>
-                <option value="income">
-                  <span class="option-icon income">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 640 640">
-                      <path d="M352 128C352 110.3 337.7 96 320 96C302.3 96 288 110.3 288 128L288 288L128 288C110.3 288 96 302.3 96 320C96 337.7 110.3 352 128 352L288 352L288 512C288 529.7 302.3 544 320 544C337.7 544 352 529.7 352 512L352 352L512 352C529.7 352 544 337.7 544 320C544 302.3 529.7 288 512 288L352 288L352 128z" />
-                    </svg>
-                  </span>
-                  <span class="option-label">Uang Masuk</span>
-                </option>
-                <option value="expense">
-                  <span class="option-icon expense">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 640 640">
-                      <path d="M96 320C96 302.3 110.3 288 128 288L512 288C529.7 288 544 302.3 544 320C544 337.7 529.7 352 512 352L128 352C110.3 352 96 337.7 96 320z" />
-                    </svg>
-                  </span>
-                  <span class="option-label">Uang Keluar</span>
-                </option>
-              </select>
-            </div>
+          <!-- Klasifikasi -->
+          <div class="tracker-transaction-form__field">
+            <label class="tracker-transaction-form__label"
+              for="transactionFormTypeSelect">Klasifikasi</label>
+            <select name="type"
+              id="transactionFormTypeSelect"
+              data-testid="transactionFormTypeSelect"
+              class="tracker-transaction-form__input tracker-input"
+              required
+              data-error-value="Klasifikasi transaksi wajib dipilih">
+              <option value=""
+                disabled
+                selected
+                hidden>Pilih klasifikasi transaksi</option>
+              <option value="income">
+                <span class="option-icon income">
+                  <svg xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 640 640">
+                    <path d="M352 128C352 110.3 337.7 96 320 96C302.3 96 288 110.3 288 128L288 288L128 288C110.3 288 96 302.3 96 320C96 337.7 110.3 352 128 352L288 352L288 512C288 529.7 302.3 544 320 544C337.7 544 352 529.7 352 512L352 352L512 352C529.7 352 544 337.7 544 320C544 302.3 529.7 288 512 288L352 288L352 128z" />
+                  </svg>
+                </span>
+                <span class="option-label">Uang Masuk</span>
+              </option>
+              <option value="expense">
+                <span class="option-icon expense">
+                  <svg xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 640 640">
+                    <path d="M96 320C96 302.3 110.3 288 128 288L512 288C529.7 288 544 302.3 544 320C544 337.7 529.7 352 512 352L128 352C110.3 352 96 337.7 96 320z" />
+                  </svg>
+                </span>
+                <span class="option-label">Uang Keluar</span>
+              </option>
+            </select>
+          </div>
 
-            <!-- simpan button -->
-            <button type="submit"
-              data-testid="transactionFormSubmitButton"
-              class="tracker-form__submit">Catat Transaksi</button>
-          </form>
-        </div>
+          <!-- simpan button -->
+          <button type="submit"
+            data-testid="transactionFormSubmitButton"
+            class="tracker-transaction-form__submit">Catat Transaksi</button>
+        </form>
+
       </section>
 
-      <!-- tracker search -->
+      <!-- TRACKER HISTORY -->
       <section class="tracker-history"
         aria-labelledby="history-heading">
         <h2 id="history-heading"
           class="visually-hidden">Riwayat Transaksi</h2>
-        <div class="tracker-search">
-          <form id="searchTransactionForm"
-            data-testid="searchTransactionForm"
-            class="tracker-search__form"
-            role="search">
-            <input type="search"
-              id="searchTransactionFormTitleInput"
-              data-testid="searchTransactionFormTitleInput"
-              class="tracker-search__input"
-              placeholder="Cari transaksi berdasarkan judul..."
-              aria-label="Kata kunci pencarian transaksi">
-            <button type="submit"
-              data-testid="searchTransactionFormSubmitButton"
-              class="tracker-search__submit"
-              aria-label="Mulai Pencarian"
-              title="Cari transaksi">
-              <svg xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 640 640">
-                <path d="M480 272C480 317.9 465.1 360.3 440 394.7L566.6 521.4C579.1 533.9 579.1 554.2 566.6 566.7C554.1 579.2 533.8 579.2 521.3 566.7L394.7 440C360.3 465.1 317.9 480 272 480C157.1 480 64 386.9 64 272C64 157.1 157.1 64 272 64C386.9 64 480 157.1 480 272zM272 416C351.5 416 416 351.5 416 272C416 192.5 351.5 128 272 128C192.5 128 128 192.5 128 272C128 351.5 192.5 416 272 416z" />
-              </svg>
-            </button>
-          </form>
+
+        <!-- TRACKER SEARCH -->
+        <form id="searchTransactionForm"
+          data-testid="searchTransactionForm"
+          class="tracker-search"
+          role="search">
+          <input type="search"
+            id="searchTransactionFormTitleInput"
+            data-testid="searchTransactionFormTitleInput"
+            class="tracker-search__input tracker-input"
+            placeholder="Cari transaksi berdasarkan judul..."
+            aria-label="Kata kunci pencarian transaksi">
+          <button type="submit"
+            data-testid="searchTransactionFormSubmitButton"
+            class="tracker-search__submit"
+            aria-label="Mulai Pencarian"
+            title="Cari transaksi">
+            <svg xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 640 640">
+              <path d="M480 272C480 317.9 465.1 360.3 440 394.7L566.6 521.4C579.1 533.9 579.1 554.2 566.6 566.7C554.1 579.2 533.8 579.2 521.3 566.7L394.7 440C360.3 465.1 317.9 480 272 480C157.1 480 64 386.9 64 272C64 157.1 157.1 64 272 64C386.9 64 480 157.1 480 272zM272 416C351.5 416 416 351.5 416 272C416 192.5 351.5 128 272 128C192.5 128 128 192.5 128 272C128 351.5 192.5 416 272 416z" />
+            </svg>
+          </button>
+        </form>
+
+        <!-- TRACKER TRANSACTION LIST -->
+        <div id="transaction-list"
+          class="tracker-transaction-list">
+
+          <!-- income -->
+          <div class="tracker-transaction-list__card tracker-card">
+            <div class="tracker-transaction-list__header">
+              <h3 class="tracker-transaction-list__title">Arus Pemasukan</h3>
+            </div>
+            <!-- Jangan ubah atau hapus atribut data-testid pada elemen berikut -->
+            <div id="incomeList"
+              data-testid="incomeList"
+              class="tracker-transaction-list__container">
+              <!-- Kartu transaksi pemasukan akan disisipkan di sini oleh JavaScript -->
+            </div>
+          </div>
+
+          <!-- expense -->
+          <div class="tracker-transaction-list__card tracker-card">
+            <div class="tracker-transaction-list__header">
+              <h3 class="tracker-transaction-list__title">Arus Pengeluaran</h3>
+            </div>
+            <!-- Jangan ubah atau hapus atribut data-testid pada elemen berikut -->
+            <div id="expenseList"
+              data-testid="expenseList"
+              class="tracker-transaction-list__container">
+              <!-- Kartu transaksi pengeluaran akan disisipkan di sini oleh JavaScript -->
+            </div>
+          </div>
+
         </div>
+
       </section>
-
-      <!-- tracker history -->
-      <div class="tracker-history__grid">
-
-        <!-- income -->
-        <div class="tracker-transaction-list">
-          <div class="tracker-transaction-list__header">
-            <h3 class="tracker-transaction-list__title">Arus Pemasukan</h3>
-          </div>
-          <!-- Jangan ubah atau hapus atribut data-testid pada elemen berikut -->
-          <div id="incomeList"
-            data-testid="incomeList"
-            class="tracker-transaction-list__container">
-            <!-- Kartu transaksi pemasukan akan disisipkan di sini oleh JavaScript -->
-          </div>
-        </div>
-
-        <!-- expense -->
-        <div class="tracker-transaction-list">
-          <div class="tracker-transaction-list__header">
-            <h3 class="tracker-transaction-list__title">Arus Pengeluaran</h3>
-          </div>
-          <!-- Jangan ubah atau hapus atribut data-testid pada elemen berikut -->
-          <div id="expenseList"
-            data-testid="expenseList"
-            class="tracker-transaction-list__container">
-            <!-- Kartu transaksi pengeluaran akan disisipkan di sini oleh JavaScript -->
-          </div>
-        </div>
-
-      </div>
 
     </main>
 
@@ -303,7 +305,7 @@
           class="tracker-transaction-item__title"></h3>
         <!-- nominal -->
         <span data-testid="transactionItemAmount"
-          class="tracker-transaction-item__amount tracker-transaction-item__amount__income"></span>
+          class="tracker-transaction-item__amount"></span>
         <!-- tanggal -->
         <span data-testid="transactionItemDate"
           class="tracker-transaction-item__date"></span>

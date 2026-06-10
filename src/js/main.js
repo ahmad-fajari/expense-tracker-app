@@ -15,9 +15,12 @@ const transactionForm = document.querySelector("#transactionForm");
 
 // pencarian transaksi
 const searchForm = document.querySelector("#searchTransactionForm");
+const searchInput = searchForm.querySelector(
+  "#searchTransactionFormTitleInput",
+);
 
 // riwayat transaksi
-const transactionHistory = document.querySelector(".tracker-history__grid");
+const transactionHistory = document.querySelector("#transaction-list");
 const incomeList = document.querySelector("#incomeList");
 const expenseList = document.querySelector("#expenseList");
 
@@ -103,20 +106,12 @@ function renderTransaction(renderedTransaction = transactionList) {
 
     // tampilkan transaksi di history sesuai kolomnya dan sesuaikan warna pada nominal
     if (transaction.type === "income") {
-      transactionItemAmount.classList.add(
-        "tracker-transaction-item__amount__income",
-      );
-      transactionItemAmount.classList.remove(
-        "tracker-transaction-item__amount__expense",
-      );
+      transactionItemAmount.classList.add("income");
+      transactionItemAmount.classList.remove("expense");
       incomeList.append(transactionItem);
     } else {
-      transactionItemAmount.classList.add(
-        "tracker-transaction-item__amount__expense",
-      );
-      transactionItemAmount.classList.remove(
-        "tracker-transaction-item__amount__income",
-      );
+      transactionItemAmount.classList.add("expense");
+      transactionItemAmount.classList.remove("income");
       expenseList.append(transactionItem);
     }
   });
@@ -159,6 +154,8 @@ function searchTransaction(keywords) {
   console.log("Hasil array setelah difilter:", searchedTransaction);
 
   renderTransaction(searchedTransaction);
+
+  searchInput.focus();
 }
 
 // ================
@@ -239,7 +236,7 @@ function editTransaction(transactionId) {
   );
   submitButton.textContent = "Simpan Perubahan";
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({ top: 400, behavior: "smooth" });
 }
 
 // ===================
@@ -300,13 +297,17 @@ transactionForm.addEventListener("submit", function (e) {
     errorInputs.forEach((input) => {
       validateTransaction(input);
     });
+
+    // focus ke input pertama yang tidak valid
+    if (errorInputs.length > 0) {
+      errorInputs[0].focus();
+    }
+
     return;
   }
 
   saveTransaction(transactionForm); // simpan transaksi
-
   updateTransaction(transactionList); // sinkronisasi perubahan
-
   transactionForm.reset(); // reset form
 });
 
@@ -315,9 +316,6 @@ transactionForm.addEventListener("submit", function (e) {
 // ==================================
 
 searchForm.addEventListener("input", function (e) {
-  const searchInput = searchForm.querySelector(
-    "#searchTransactionFormTitleInput",
-  );
   const keywords = searchInput.value.toLowerCase();
 
   searchTransaction(keywords);
