@@ -238,6 +238,16 @@ function searchTransaction(keywords) {
   searchInput.focus();
 }
 
+// =========================
+// BERSIHKAN KOLOM PENCARIAN
+// =========================
+
+function clearSearchBar() {
+  searchInput.value = ""; // hapus search bar
+  renderTransaction(); // tampilkan history transaksi
+  searchInput.focus(); // focus ke search bar
+}
+
 // ===================
 // UBAH TYPE TRANSAKSI
 // ===================
@@ -326,6 +336,14 @@ searchForm.addEventListener("submit", function (e) {
   const keywords = searchInput.value.toLowerCase();
 
   searchTransaction(keywords);
+});
+
+searchForm.addEventListener("click", function (e) {
+  const clearButton = e.target.closest("#clear-button");
+
+  if (clearButton) {
+    clearSearchBar();
+  }
 });
 
 // =============================

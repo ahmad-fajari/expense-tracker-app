@@ -597,13 +597,23 @@ select option {
   grid-template-columns: 1fr auto;
 }
 
+.tracker-search__input-wrapper {
+  position: relative;
+}
+
 .tracker-search__input {
   border-inline-end: none;
   border-start-start-radius: 12px;
   border-end-start-radius: 12px;
+  padding-inline-end: 2rem;
   transition:
     border-color 0.2s ease-in-out,
     box-shadow 0.2s ease-in-out;
+
+  &::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+  }
 
   &:hover {
     @media (hover: hover) {
@@ -622,6 +632,46 @@ select option {
       inset 1px 0 0 0 var(--secondary) /* Kiri */,
       inset 0 1px 0 0 var(--secondary) /* Atas */,
       inset 0 -1px 0 0 var(--secondary); /* Bawah */
+  }
+}
+
+.tracker-search__input-clear {
+  position: absolute;
+  display: none;
+  opacity: 0;
+  inset: 0;
+  inset-inline-start: auto;
+  padding-inline: 0.5rem;
+  color: var(--text-muted);
+  transition:
+    display 0.2s ease-in-out allow-discrete,
+    color 0.2s ease-in-out,
+    opacity 0.2s ease-in-out allow-discrete;
+  cursor: pointer;
+
+  &:hover {
+    @media (hover: hover) {
+      color: var(--text);
+    }
+  }
+
+  &:focus-visible {
+    color: var(--text);
+  }
+}
+
+.tracker-search__input-clear svg {
+  inline-size: 1rem;
+  block-size: 1rem;
+  fill: currentColor;
+}
+
+.tracker-search__input:valid + .tracker-search__input-clear {
+  display: block;
+  opacity: 1;
+
+  @starting-style {
+    opacity: 0;
   }
 }
 
