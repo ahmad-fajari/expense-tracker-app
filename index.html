@@ -191,7 +191,8 @@
                 selected
                 hidden>Pilih klasifikasi transaksi</option>
               <option value="income">
-                <span class="option-icon income">
+                <span class="option-icon income"
+                  aria-hidden="true">
                   <svg xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 640 640">
                     <path d="M352 128C352 110.3 337.7 96 320 96C302.3 96 288 110.3 288 128L288 288L128 288C110.3 288 96 302.3 96 320C96 337.7 110.3 352 128 352L288 352L288 512C288 529.7 302.3 544 320 544C337.7 544 352 529.7 352 512L352 352L512 352C529.7 352 544 337.7 544 320C544 302.3 529.7 288 512 288L352 288L352 128z" />
@@ -200,7 +201,8 @@
                 <span class="option-label">Uang Masuk</span>
               </option>
               <option value="expense">
-                <span class="option-icon expense">
+                <span class="option-icon expense"
+                  aria-hidden="true">
                   <svg xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 640 640">
                     <path d="M96 320C96 302.3 110.3 288 128 288L512 288C529.7 288 544 302.3 544 320C544 337.7 529.7 352 512 352L128 352C110.3 352 96 337.7 96 320z" />
@@ -241,8 +243,11 @@
               aria-label="Kata kunci pencarian transaksi">
             <button type="button"
               id="clear-button"
-              class="tracker-search__input-clear">
-              <svg xmlns="http://www.w3.org/2000/svg"
+              class="tracker-search__input-clear"
+              aria-label="Bersihkan pencarian"
+              title="Bersihkan pencarian">
+              <svg aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 640 640">
                 <path d="M183.1 137.4C170.6 124.9 150.3 124.9 137.8 137.4C125.3 149.9 125.3 170.2 137.8 182.7L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7L320.5 365.3L457.9 502.6C470.4 515.1 490.7 515.1 503.2 502.6C515.7 490.1 515.7 469.8 503.2 457.3L365.8 320L503.1 182.6C515.6 170.1 515.6 149.8 503.1 137.3C490.6 124.8 470.3 124.8 457.8 137.3L320.5 274.7L183.1 137.4z" />
               </svg>
@@ -252,8 +257,9 @@
             data-testid="searchTransactionFormSubmitButton"
             class="tracker-search__submit"
             aria-label="Mulai Pencarian"
-            title="Cari transaksi">
-            <svg xmlns="http://www.w3.org/2000/svg"
+            title="Mulai pencarian">
+            <svg aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 640 640">
               <path d="M480 272C480 317.9 465.1 360.3 440 394.7L566.6 521.4C579.1 533.9 579.1 554.2 566.6 566.7C554.1 579.2 533.8 579.2 521.3 566.7L394.7 440C360.3 465.1 317.9 480 272 480C157.1 480 64 386.9 64 272C64 157.1 157.1 64 272 64C386.9 64 480 157.1 480 272zM272 416C351.5 416 416 351.5 416 272C416 192.5 351.5 128 272 128C192.5 128 128 192.5 128 272C128 351.5 192.5 416 272 416z" />
             </svg>
@@ -335,7 +341,8 @@
           class="tracker-transaction-item__btn action-button"
           aria-label="Edit Transaksi"
           title="Edit Transaksi">
-          <svg xmlns="http://www.w3.org/2000/svg"
+          <svg aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 640 640">
             <path d="M535.6 85.7C513.7 63.8 478.3 63.8 456.4 85.7L432 110.1L529.9 208L554.3 183.6C576.2 161.7 576.2 126.3 554.3 104.4L535.6 85.7zM236.4 305.7C230.3 311.8 225.6 319.3 222.9 327.6L193.3 416.4C190.4 425 192.7 434.5 199.1 441C205.5 447.5 215 449.7 223.7 446.8L312.5 417.2C320.7 414.5 328.2 409.8 334.4 403.7L496 241.9L398.1 144L236.4 305.7zM160 128C107 128 64 171 64 224L64 480C64 533 107 576 160 576L416 576C469 576 512 533 512 480L512 384C512 366.3 497.7 352 480 352C462.3 352 448 366.3 448 384L448 480C448 497.7 433.7 512 416 512L160 512C142.3 512 128 497.7 128 480L128 224C128 206.3 142.3 192 160 192L256 192C273.7 192 288 177.7 288 160C288 142.3 273.7 128 256 128L160 128z" />
           </svg>
@@ -347,7 +354,8 @@
           class="tracker-transaction-item__btn action-button"
           aria-label="Ubah Tipe Transaksi"
           title="Ubah Tipe Transaksi">
-          <svg xmlns="http://www.w3.org/2000/svg"
+          <svg aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 640 640">
             <path d="M566.6 214.6L470.6 310.6C458.1 323.1 437.8 323.1 425.3 310.6C412.8 298.1 412.8 277.8 425.3 265.3L466.7 224L96 224C78.3 224 64 209.7 64 192C64 174.3 78.3 160 96 160L466.7 160L425.3 118.6C412.8 106.1 412.8 85.8 425.3 73.3C437.8 60.8 458.1 60.8 470.6 73.3L566.6 169.3C579.1 181.8 579.1 202.1 566.6 214.6zM169.3 566.6L73.3 470.6C60.8 458.1 60.8 437.8 73.3 425.3L169.3 329.3C181.8 316.8 202.1 316.8 214.6 329.3C227.1 341.8 227.1 362.1 214.6 374.6L173.3 416L544 416C561.7 416 576 430.3 576 448C576 465.7 561.7 480 544 480L173.3 480L214.7 521.4C227.2 533.9 227.2 554.2 214.7 566.7C202.2 579.2 181.9 579.2 169.4 566.7z" />
           </svg>
@@ -359,7 +367,8 @@
           class="tracker-transaction-item__btn delete-button"
           aria-label="Hapus Transaksi"
           title="Hapus Transaksi">
-          <svg xmlns="http://www.w3.org/2000/svg"
+          <svg aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 640 640">
             <path d="M232.7 69.9L224 96L128 96C110.3 96 96 110.3 96 128C96 145.7 110.3 160 128 160L512 160C529.7 160 544 145.7 544 128C544 110.3 529.7 96 512 96L416 96L407.3 69.9C402.9 56.8 390.7 48 376.9 48L263.1 48C249.3 48 237.1 56.8 232.7 69.9zM512 208L128 208L149.1 531.1C150.7 556.4 171.7 576 197 576L443 576C468.3 576 489.3 556.4 490.9 531.1L512 208z" />
           </svg>

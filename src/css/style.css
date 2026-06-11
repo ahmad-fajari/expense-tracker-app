@@ -666,6 +666,7 @@ select option {
   fill: currentColor;
 }
 
+/* menampilkan clear button ketika search bar memiliki value */
 .tracker-search__input:valid + .tracker-search__input-clear {
   display: block;
   opacity: 1;
