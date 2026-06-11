@@ -16,7 +16,7 @@
 
   --primary: light-dark(oklch(0.82 0.1 130), oklch(0.77 0.1 130));
   --primary-bg: oklch(0.97 0.02 130);
-  --primary-text: light-dark(oklch(0.63 0.13 132), oklch(0.82 0.1 130));
+  --primary-text: light-dark(oklch(0.52 0.11 131), oklch(0.82 0.1 130));
   --primary-hover: oklch(0.72 0.16 132);
 
   --secondary: light-dark(oklch(0.55 0.1 109), oklch(0.85 0.09 108));
@@ -32,7 +32,7 @@
   --income-bg: oklch(0.96 0.02 250);
   --income-text-dark: oklch(0.53 0.17 255);
 
-  --color-expense: light-dark(oklch(0.48 0.15 41), oklch(0.71 0.15 44));
+  --color-expense: light-dark(oklch(0.48 0.15 41), oklch(0.71 0.12 44));
   --expense-bg: oklch(0.96 0.02 48);
   --expense-text-dark: oklch(0.48 0.15 41);
 
@@ -327,12 +327,27 @@ h6 {
 }
 
 .tracker-summary__label {
+  display: flex;
+  align-items: center;
   font-size: 0.85rem;
   font-weight: 600;
   text-transform: uppercase;
   color: var(--text-muted);
   letter-spacing: 0.05em;
   text-box: trim-both cap alphabetic;
+}
+
+.tracker-summary__label svg {
+  display: inline-block;
+  fill: currentColor;
+  inline-size: 1rem;
+  block-size: 1rem;
+  margin-inline-end: 0.5em;
+}
+
+.tracker-summary__label--balance svg {
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
 }
 
 /* saldo */
@@ -930,6 +945,10 @@ select option {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+.primary {
+  color: var(--primary-text);
 }
 
 .income {
