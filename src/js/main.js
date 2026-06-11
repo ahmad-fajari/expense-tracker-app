@@ -3,8 +3,6 @@ const STORAGE_KEY = "transactions";
 let transactionList = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 let editingId = null;
 
-console.log(transactionList);
-
 // dashboard
 const balance = document.querySelector("#balance-amount");
 const income = document.querySelector("#income-amount");
@@ -78,27 +76,27 @@ function renderTransaction(renderedTransaction = transactionList) {
 
   renderedTransaction.forEach(function (transaction) {
     // clone element dari template
-    const transactionItem = transactionTemplate.content.cloneNode(true);
+    const transactionClone = transactionTemplate.content.cloneNode(true);
 
     // element yang akan diisi data dari form
-    const transactionItemWrapper = transactionItem.querySelector(
+    const transactionItem = transactionClone.querySelector(
       '[data-testid="transactionItem"]',
     );
-    const transactionItemTitle = transactionItem.querySelector(
+    const transactionItemTitle = transactionClone.querySelector(
       '[data-testid="transactionItemTitle"]',
     );
-    const transactionItemAmount = transactionItem.querySelector(
+    const transactionItemAmount = transactionClone.querySelector(
       '[data-testid="transactionItemAmount"]',
     );
-    const transactionItemDate = transactionItem.querySelector(
+    const transactionItemDate = transactionClone.querySelector(
       '[data-testid="transactionItemDate"]',
     );
-    const transactionItemType = transactionItem.querySelector(
+    const transactionItemType = transactionClone.querySelector(
       '[data-testid="transactionItemType"]',
     );
 
     // isi detail transaksi
-    transactionItemWrapper.setAttribute("data-transaction-id", transaction.id);
+    transactionItem.setAttribute("data-transaction-id", transaction.id);
     transactionItemTitle.textContent = transaction.title;
     transactionItemAmount.textContent = `Rp. ${transaction.amount.toLocaleString("id-ID")}`;
     transactionItemDate.textContent = transaction.date;
@@ -140,22 +138,6 @@ function updateSummaryDashboard() {
   balance.textContent = `Rp. ${totalBalance.toLocaleString("id-ID")}`;
   income.textContent = `Rp. ${totalIncome.toLocaleString("id-ID")}`;
   expense.textContent = `Rp. ${totalExpense.toLocaleString("id-ID")}`;
-}
-
-// ==============
-// CARI TRANSAKSI
-// ==============
-
-function searchTransaction(keywords) {
-  const searchedTransaction = transactionList.filter(function (transaction) {
-    return transaction.title.toLowerCase().includes(keywords);
-  });
-
-  console.log("Hasil array setelah difilter:", searchedTransaction);
-
-  renderTransaction(searchedTransaction);
-
-  searchInput.focus();
 }
 
 // ================
@@ -201,6 +183,20 @@ function saveTransaction(transaction) {
 }
 
 // ==============
+// CARI TRANSAKSI
+// ==============
+
+function searchTransaction(keywords) {
+  const searchedTransaction = transactionList.filter(function (transaction) {
+    return transaction.title.toLowerCase().includes(keywords);
+  });
+
+  renderTransaction(searchedTransaction);
+
+  searchInput.focus();
+}
+
+// ==============
 // EDIT TRANSAKSI
 // ==============
 
@@ -209,29 +205,29 @@ function editTransaction(transactionId) {
     (transaction) => transaction.id === transactionId,
   );
 
-  // input yang akan diedit
-  const transactionItemTitle = document.querySelector(
+  // form input yang akan diedit
+  const transactionFormTitle = transactionForm.querySelector(
     '[data-testid="transactionFormTitleInput"]',
   );
-  const transactionItemAmount = document.querySelector(
+  const transactionFormAmount = transactionForm.querySelector(
     '[data-testid="transactionFormAmountInput"]',
   );
-  const transactionItemDate = document.querySelector(
+  const transactionFormDate = transactionForm.querySelector(
     '[data-testid="transactionFormDateInput"]',
   );
-  const transactionItemType = document.querySelector(
+  const transactionFormType = transactionForm.querySelector(
     '[data-testid="transactionFormTypeSelect"]',
   );
 
   // mengembalikan value input ke form
-  transactionItemTitle.value = transactionListItem.title;
-  transactionItemAmount.value = transactionListItem.amount;
-  transactionItemDate.value = transactionListItem.date;
-  transactionItemType.value = transactionListItem.type;
+  transactionFormTitle.value = transactionListItem.title;
+  transactionFormAmount.value = transactionListItem.amount;
+  transactionFormDate.value = transactionListItem.date;
+  transactionFormType.value = transactionListItem.type;
 
   editingId = transactionId;
 
-  const submitButton = document.querySelector(
+  const submitButton = transactionForm.querySelector(
     '[data-testid="transactionFormSubmitButton"]',
   );
   submitButton.textContent = "Simpan Perubahan";
@@ -265,9 +261,9 @@ function deleteTransaction(transactionId) {
   );
 }
 
-// ==================================================================
-// UPDATE ARRAY, LOCAL STORAGE, DAN UI SETIAP ADA PERUBAHAN TRANSAKSI
-// ==================================================================
+// ======================
+// SINKRONISASI TRANSAKSI
+// ======================
 
 function updateTransaction(newTransactionList) {
   // update daftar transaksi
@@ -324,9 +320,6 @@ searchForm.addEventListener("input", function (e) {
 searchForm.addEventListener("submit", function (e) {
   e.preventDefault();
 
-  const searchInput = searchForm.querySelector(
-    "#searchTransactionFormTitleInput",
-  );
   const keywords = searchInput.value.toLowerCase();
 
   searchTransaction(keywords);
