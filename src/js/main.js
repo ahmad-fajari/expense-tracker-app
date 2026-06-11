@@ -3,6 +3,9 @@ const STORAGE_KEY = "transactions";
 let transactionList = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 let editingId = null;
 
+// cutom event
+const EVENT_UPDATE = "transaction:updated";
+
 // dashboard
 const balance = document.querySelector("#balance-amount");
 const income = document.querySelector("#income-amount");
@@ -140,62 +143,6 @@ function updateSummaryDashboard() {
   expense.textContent = `Rp. ${totalExpense.toLocaleString("id-ID")}`;
 }
 
-// ================
-// SIMPAN TRANSAKSI
-// ================
-
-function saveTransaction(transaction) {
-  // ambil data dari user input
-  const formDataRaw = new FormData(transactionForm);
-  const formData = Object.fromEntries(formDataRaw);
-
-  // MODE EDIT TRANSAKSI
-  if (editingId != null) {
-    const indexTransactionToEdit = transactionList.findIndex(
-      (transaction) => transaction.id === editingId,
-    );
-
-    const updatedTransaction = {
-      id: editingId, // gunakan id yang sama
-      ...formData,
-      amount: Number(formData.amount), // ubah format nominal dari string menjadi number
-    };
-
-    transactionList[indexTransactionToEdit] = updatedTransaction;
-
-    editingId = null;
-
-    const submitButton = document.querySelector(
-      '[data-testid="transactionFormSubmitButton"]',
-    );
-    submitButton.textContent = "Catat Transaksi";
-  }
-  // MODE SIMPAN TRANSAKSI
-  else {
-    const newTransaction = {
-      id: generateTransactionId(), // tambahkan id dari timestamp
-      ...formData,
-      amount: Number(formData.amount), // ubah format nominal dari string menjadi number
-    };
-
-    transactionList.push(newTransaction);
-  }
-}
-
-// ==============
-// CARI TRANSAKSI
-// ==============
-
-function searchTransaction(keywords) {
-  const searchedTransaction = transactionList.filter(function (transaction) {
-    return transaction.title.toLowerCase().includes(keywords);
-  });
-
-  renderTransaction(searchedTransaction);
-
-  searchInput.focus();
-}
-
 // ==============
 // EDIT TRANSAKSI
 // ==============
@@ -230,9 +177,65 @@ function editTransaction(transactionId) {
   const submitButton = transactionForm.querySelector(
     '[data-testid="transactionFormSubmitButton"]',
   );
-  submitButton.textContent = "Simpan Perubahan";
+  submitButton.textContent = "Simpan Perubahan"; // ganti teks pada button
 
-  window.scrollTo({ top: 400, behavior: "smooth" });
+  transactionFormTitle.focus(); // fokus ke input pertama
+}
+
+// ================
+// SIMPAN TRANSAKSI
+// ================
+
+function saveTransaction(transaction) {
+  // ambil data dari user input
+  const formDataRaw = new FormData(transactionForm);
+  const formData = Object.fromEntries(formDataRaw);
+
+  // MODE EDIT TRANSAKSI
+  if (editingId != null) {
+    const indexTransactionToEdit = transactionList.findIndex(
+      (transaction) => transaction.id === editingId,
+    );
+
+    const updatedTransaction = {
+      id: editingId, // gunakan id yang sama
+      ...formData,
+      amount: Number(formData.amount), // ubah format nominal dari string menjadi number
+    };
+
+    transactionList[indexTransactionToEdit] = updatedTransaction;
+
+    editingId = null;
+
+    const submitButton = document.querySelector(
+      '[data-testid="transactionFormSubmitButton"]',
+    );
+    submitButton.textContent = "Catat Transaksi"; // kembalikan teks seperti semula
+  }
+  // MODE SIMPAN TRANSAKSI
+  else {
+    const newTransaction = {
+      id: generateTransactionId(), // tambahkan id dari timestamp
+      ...formData,
+      amount: Number(formData.amount), // ubah format nominal dari string menjadi number
+    };
+
+    transactionList.push(newTransaction);
+  }
+}
+
+// ==============
+// CARI TRANSAKSI
+// ==============
+
+function searchTransaction(keywords) {
+  const searchedTransaction = transactionList.filter(function (transaction) {
+    return transaction.title.toLowerCase().includes(keywords);
+  });
+
+  renderTransaction(searchedTransaction);
+
+  searchInput.focus();
 }
 
 // ===================
@@ -303,7 +306,7 @@ transactionForm.addEventListener("submit", function (e) {
   }
 
   saveTransaction(transactionForm); // simpan transaksi
-  updateTransaction(transactionList); // sinkronisasi perubahan
+  document.dispatchEvent(new Event(EVENT_UPDATE)); // pancarkan sinyal custom event
   transactionForm.reset(); // reset form
 });
 
@@ -355,7 +358,7 @@ transactionHistory.addEventListener("click", function (e) {
 
     changeTransactionType(transactionId); // ubah type transaksi dari daftar transaksi
 
-    updateTransaction(transactionList); // siknronisasi perubahan
+    document.dispatchEvent(new Event(EVENT_UPDATE)); // pancarkan sinyal custom event
   }
 });
 
@@ -374,8 +377,16 @@ transactionHistory.addEventListener("click", function (e) {
 
     deleteTransaction(transactionId); // hapus transaksi dari daftar transaksi
 
-    updateTransaction(transactionList); // siknronisasi perubahan
+    document.dispatchEvent(new Event(EVENT_UPDATE)); // pancarkan sinyal custom event
   }
+});
+
+// ===========================
+// EVENT LISTENER CUSTOM EVENT
+// ===========================
+
+document.addEventListener(EVENT_UPDATE, function () {
+  updateTransaction(transactionList);
 });
 
 // ==================
