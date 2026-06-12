@@ -26,6 +26,8 @@ TacticCash adalah aplikasi pelacak keuangan (_expense tracker_) berbasis web yan
 
 Live demo:
 
+https://tactic-cash.vercel.app/
+
 Screenshoot:
 
 [TacticCash Dashboard](./src/assets/screenshot.png)
