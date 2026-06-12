@@ -71,7 +71,7 @@ function renderTransaction(renderedTransaction = transactionList) {
       '[data-testid="transactionItem"]',
     );
     const transactionItemTitle = transactionClone.querySelector(
-      '[data-testid="transactionItemTitle"]',
+      "#transaction-item-title",
     );
     const transactionItemAmount = transactionClone.querySelector(
       '[data-testid="transactionItemAmount"]',
@@ -83,6 +83,9 @@ function renderTransaction(renderedTransaction = transactionList) {
       '[data-testid="transactionItemType"]',
     );
 
+    //icon transaksi
+    const transactionIcon = transactionClone.querySelector("#transaction-icon");
+
     // isi detail transaksi
     transactionItem.setAttribute("data-transaction-id", transaction.id);
     transactionItemTitle.textContent = transaction.title;
@@ -90,14 +93,23 @@ function renderTransaction(renderedTransaction = transactionList) {
     transactionItemDate.textContent = transaction.date;
     transactionItemType.textContent = transaction.type;
 
-    // tampilkan transaksi di history sesuai kolomnya dan sesuaikan warna pada nominal
+    // tampilkan transaksi di history sesuai kolomnya, sesuaikan icon, dan sesuaikan warna pada nominal
     if (transaction.type === "income") {
       transactionItemAmount.classList.add("income");
       transactionItemAmount.classList.remove("expense");
+
+      transactionIcon.classList.add("income");
+      transactionIcon.classList.remove("expense");
       incomeList.append(transactionItem);
     } else {
       transactionItemAmount.classList.add("expense");
       transactionItemAmount.classList.remove("income");
+
+      transactionIcon.classList.add(
+        "tracker-transaction-icon--expense",
+        "expense",
+      );
+      transactionIcon.classList.remove("income");
       expenseList.append(transactionItem);
     }
   });

@@ -205,6 +205,24 @@ h6 {
   background: var(--bg-card);
 }
 
+/*  ========================
+    TRACKER TRANSACTION ICON
+    ======================== */
+
+.tracker-transaction-icon {
+  inline-size: 1rem;
+  block-size: 1rem;
+}
+
+.tracker-transaction-icon--expense {
+  rotate: 180deg;
+}
+
+.tracker-transaction-icon--larger {
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+}
+
 /*  ==============
     TRACKER HEADER
     ============== */
@@ -329,25 +347,13 @@ h6 {
 .tracker-summary__label {
   display: flex;
   align-items: center;
+  gap: 0.5rem;
   font-size: 0.85rem;
   font-weight: 600;
   text-transform: uppercase;
   color: var(--text-muted);
   letter-spacing: 0.05em;
   text-box: trim-both cap alphabetic;
-}
-
-.tracker-summary__label svg {
-  display: inline-block;
-  fill: currentColor;
-  inline-size: 1rem;
-  block-size: 1rem;
-  margin-inline-end: 0.5em;
-}
-
-.tracker-summary__label--balance svg {
-  inline-size: 1.5rem;
-  block-size: 1.5rem;
 }
 
 /* saldo */
@@ -553,12 +559,6 @@ select option {
       }
     }
   }
-}
-
-.option-icon svg {
-  inline-size: 1rem;
-  block-size: 1rem;
-  fill: currentColor;
 }
 
 /* submit buton */
@@ -824,6 +824,9 @@ select option {
 
 /* judul transaksi */
 .tracker-transaction-item__title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   font-weight: 600;
   font-size: 1.05rem;
 
