@@ -30,7 +30,7 @@ https://tactic-cash.vercel.app/
 
 Screenshoot:
 
-[TacticCash Dashboard](./src/assets/screenshot.png)
+![TacticCash Dashboard](./src/assets/screenshot.png)
 
 ## Run Locally
 
