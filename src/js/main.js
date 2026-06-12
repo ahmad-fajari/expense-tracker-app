@@ -28,13 +28,6 @@ const expenseList = document.querySelector("#expenseList");
 // template transaksi
 const transactionTemplate = document.querySelector("#transaction-template");
 
-// membuat attribute max pada tanggal secara dinamis sesuai tanggal hari ini
-const dateInput = document.querySelector("#transactionFormDateInput");
-const dateTodayTimestamp = new Date();
-// mengubah formatnya menjadi YYYY-MM-DD
-const dateToday = dateTodayTimestamp.toISOString().split("T")[0];
-dateInput.setAttribute("max", dateToday);
-
 // =====================================
 // FORM VALIDATIONS PENCATATAN TRANSAKSI
 // =====================================
@@ -59,14 +52,6 @@ function validateTransaction(inputElement) {
   } else {
     return true;
   }
-}
-
-// ============================
-// BUAT TRANSACTION ID OTOMATIS
-// ============================
-
-function generateTransactionId() {
-  return "tx-" + Date.now();
 }
 
 // ================
@@ -215,7 +200,7 @@ function saveTransaction(transaction) {
   // MODE SIMPAN TRANSAKSI
   else {
     const newTransaction = {
-      id: generateTransactionId(), // tambahkan id dari timestamp
+      id: "tx-" + Date.now(), // buat id dari timestamp
       ...formData,
       amount: Number(formData.amount), // ubah format nominal dari string menjadi number
     };
@@ -414,6 +399,22 @@ document.addEventListener(EVENT_UPDATE, function () {
 function init() {
   renderTransaction();
   updateSummaryDashboard();
+
+  // generate timestamp
+  const dateTodayTimestamp = new Date();
+
+  // mengubah bulan di header menjadi bulan ini
+  const dateFormatMonthYear = dateTodayTimestamp.toLocaleDateString("id-ID", {
+    month: "long",
+    year: "numeric",
+  });
+  const headerDate = document.querySelector("#header-date");
+  headerDate.textContent = dateFormatMonthYear;
+
+  // mengubah attribute max pada input date menjadi tanggal hari ini
+  const dateFormatYYYYMMDD = dateTodayTimestamp.toISOString().split("T")[0];
+  const dateInput = document.querySelector("#transactionFormDateInput");
+  dateInput.setAttribute("max", dateFormatYYYYMMDD);
 }
 
 init();
