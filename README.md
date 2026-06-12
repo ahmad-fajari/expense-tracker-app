@@ -13,6 +13,7 @@ TacticCash adalah aplikasi pelacak keuangan (_expense tracker_) berbasis web yan
 
 ## Features
 
+- **Mode Gelap & Terang (Light & Dark Mode):** Mendukung perubahan tema tampilan mode terang dan mode gelap secara otomatis berdasarkan preferensi sistem operasi atau browser pengguna.
 - **Pencatatan Transaksi (Add Transaction):** Pengguna dapat menambahkan transaksi baru berupa pemasukan (income) maupun pengeluaran (expense) dengan menyertakan keterangan, nominal, dan tanggal.
 - **Ringkasan Keuangan (Summary Dashboard):** Aplikasi secara otomatis menghitung dan menampilkan total saldo saat ini, total pemasukan, dan total pengeluaran.
 - **Riwayat Transaksi (Transaction History):** Menampilkan daftar transaksi yang terbagi dalam arus pemasukan dan arus pengeluaran secara visual.
