@@ -1,0 +1,36 @@
+{
+	"name": "tacticcash",
+	"type": "module",
+	"version": "0.0.1",
+	"engines": {
+		"node": ">=22.12.0"
+	},
+	"scripts": {
+		"dev": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"astro": "astro",
+		"biome": "biome check",
+		"biome:fix": "biome check --write",
+		"db:generate": "drizzle-kit generate",
+		"db:migrate": "drizzle-kit migrate",
+		"generate-types": "wrangler types"
+	},
+	"dependencies": {
+		"@astrojs/cloudflare": "^14.2.3",
+		"@astrojs/solid-js": "^7.0.2",
+		"@neondatabase/serverless": "^1.1.0",
+		"@tailwindcss/vite": "^4.3.3",
+		"@tanstack/solid-form": "^1.33.5",
+		"@tanstack/solid-query": "^5.101.4",
+		"astro": "^7.2.4",
+		"drizzle-orm": "^1.0.0-rc.4",
+		"solid-js": "^1.9.15",
+		"tailwindcss": "^4.3.3",
+		"wrangler": "^4.124.0"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.5.9",
+		"drizzle-kit": "^1.0.0-rc.4"
+	}
+}
