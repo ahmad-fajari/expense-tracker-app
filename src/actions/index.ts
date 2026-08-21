@@ -1,9 +1,13 @@
 import { defineAction, ActionError } from "astro:actions";
-import { z } from "astro:schema";
 import { eq, desc } from "drizzle-orm";
 import { db } from "../db";
 import { transaction, user } from "../db/schema";
 import { auth } from "../lib/auth";
+import {
+	transactionSchema,
+	updateTransactionSchema,
+	deleteTransactionSchema,
+} from "../lib/schema/transaction-schema";
 
 export const server = {
 	// Mengambil daftar transaksi user
@@ -16,7 +20,15 @@ export const server = {
 
 			if (!userId) {
 				userId = "dev-user";
-				await db.insert(user).values({ id: userId }).onConflictDoNothing();
+				await db
+					.insert(user)
+					.values({
+						id: userId,
+						email: "dev-user@example.com",
+						name: "Development User",
+						emailVerified: false,
+					})
+					.onConflictDoNothing();
 			}
 
 			const data = await db
@@ -31,12 +43,7 @@ export const server = {
 
 	// Menambah transaksi baru
 	createTransaction: defineAction({
-		input: z.object({
-			title: z.string().min(1, "Keterangan wajib diisi"),
-			amount: z.number().min(1, "Nominal tidak boleh kurang dari Rp. 1"),
-			date: z.string().min(1, "Tanggal wajib diisi"),
-			type: z.enum(["income", "expense"]),
-		}),
+		input: transactionSchema,
 		handler: async (input, context) => {
 			const session = await auth.api.getSession({
 				headers: context.request.headers,
@@ -45,7 +52,15 @@ export const server = {
 
 			if (!userId) {
 				userId = "dev-user";
-				await db.insert(user).values({ id: userId }).onConflictDoNothing();
+				await db
+					.insert(user)
+					.values({
+						id: userId,
+						email: "dev-user@example.com",
+						name: "Development User",
+						emailVerified: false,
+					})
+					.onConflictDoNothing();
 			}
 
 			const id = `tx-${Date.now()}`;
@@ -64,13 +79,7 @@ export const server = {
 
 	// Memperbarui transaksi
 	updateTransaction: defineAction({
-		input: z.object({
-			id: z.string(),
-			title: z.string().min(1, "Keterangan wajib diisi"),
-			amount: z.number().min(1, "Nominal tidak boleh kurang dari Rp. 1"),
-			date: z.string().min(1, "Tanggal wajib diisi"),
-			type: z.enum(["income", "expense"]),
-		}),
+		input: updateTransactionSchema,
 		handler: async (input, context) => {
 			const session = await auth.api.getSession({
 				headers: context.request.headers,
@@ -79,7 +88,15 @@ export const server = {
 
 			if (!userId) {
 				userId = "dev-user";
-				await db.insert(user).values({ id: userId }).onConflictDoNothing();
+				await db
+					.insert(user)
+					.values({
+						id: userId,
+						email: "dev-user@example.com",
+						name: "Development User",
+						emailVerified: false,
+					})
+					.onConflictDoNothing();
 			}
 
 			const [existing] = await db
@@ -110,9 +127,7 @@ export const server = {
 
 	// Mengubah klasifikasi tipe transaksi (Pemasukan <-> Pengeluaran)
 	toggleTransactionType: defineAction({
-		input: z.object({
-			id: z.string(),
-		}),
+		input: deleteTransactionSchema,
 		handler: async (input, context) => {
 			const session = await auth.api.getSession({
 				headers: context.request.headers,
@@ -121,7 +136,15 @@ export const server = {
 
 			if (!userId) {
 				userId = "dev-user";
-				await db.insert(user).values({ id: userId }).onConflictDoNothing();
+				await db
+					.insert(user)
+					.values({
+						id: userId,
+						email: "dev-user@example.com",
+						name: "Development User",
+						emailVerified: false,
+					})
+					.onConflictDoNothing();
 			}
 
 			const [existing] = await db
@@ -149,9 +172,7 @@ export const server = {
 
 	// Menghapus transaksi
 	deleteTransaction: defineAction({
-		input: z.object({
-			id: z.string(),
-		}),
+		input: deleteTransactionSchema,
 		handler: async (input, context) => {
 			const session = await auth.api.getSession({
 				headers: context.request.headers,
@@ -160,7 +181,15 @@ export const server = {
 
 			if (!userId) {
 				userId = "dev-user";
-				await db.insert(user).values({ id: userId }).onConflictDoNothing();
+				await db
+					.insert(user)
+					.values({
+						id: userId,
+						email: "dev-user@example.com",
+						name: "Development User",
+						emailVerified: false,
+					})
+					.onConflictDoNothing();
 			}
 
 			const [existing] = await db
