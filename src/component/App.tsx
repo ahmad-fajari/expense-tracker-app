@@ -1,136 +1,78 @@
-import { createSignal, onMount, createMemo } from "solid-js";
+import { createSignal, createMemo } from "solid-js";
+import {
+	QueryClient,
+	QueryClientProvider,
+	createQuery,
+} from "@tanstack/solid-query";
 import { actions } from "astro:actions";
-import type { Transaction } from "~/types";
+import type { Transaction, SerializedTransaction } from "~/types";
 import Header from "./layout/Header";
 import Summary from "./dashboard/Summary";
 import TransactionForm from "./transaction/TransactionForm";
 import SearchBar from "./transaction/SearchBar";
 import TransactionList from "./transaction/TransactionList";
 
-interface ParsedTransaction extends Omit<Transaction, "createdAt"> {
-	createdAt: Date;
+const queryClient = new QueryClient();
+
+interface AppProps {
+	initialTransactions?: SerializedTransaction[];
 }
 
-interface StoredTransaction extends Omit<Transaction, "createdAt"> {
-	createdAt: string | Date;
+export default function App(props: AppProps) {
+	return (
+		<QueryClientProvider client={queryClient}>
+			<TrackerApp initialTransactions={props.initialTransactions} />
+		</QueryClientProvider>
+	);
 }
 
-interface TransactionFormData {
-	title: string;
-	amount: number;
-	date: string;
-	type: "income" | "expense";
+interface TrackerAppProps {
+	initialTransactions?: SerializedTransaction[];
 }
 
-export default function App() {
-	const [transactions, setTransactions] = createSignal<Transaction[]>([]);
+function TrackerApp(props: TrackerAppProps) {
 	const [searchQuery, setSearchQuery] = createSignal("");
 	const [editingTransaction, setEditingTransaction] =
 		createSignal<Transaction | null>(null);
 
-	// Load transactions on mount
-	const fetchTransactions = async (): Promise<void> => {
-		try {
+	// TanStack Query untuk fetching transaksi secara reaktif dengan initialData opsional
+	const transactionsQuery = createQuery(() => ({
+		queryKey: ["transactions"],
+		queryFn: async () => {
 			const result = await actions.getTransactions();
-			if (result.data) {
-				// Pastikan parsing tanggal dari database terdefinisi dengan benar
-				const list: ParsedTransaction[] = result.data.map(
-					(item: StoredTransaction): ParsedTransaction => ({
-						...item,
-						createdAt: new Date(item.createdAt),
-					}),
-				);
-				setTransactions(list);
+			if (result.error) {
+				throw new Error(result.error.message);
 			}
-		} catch (err) {
-			console.error("Gagal mengambil data transaksi:", err);
-		}
-	};
+			return (
+				result.data?.map((item) => ({
+					...item,
+					createdAt: new Date(item.createdAt),
+				})) || []
+			);
+		},
+		initialData: (props.initialTransactions || []).map((item) => ({
+			...item,
+			createdAt: new Date(item.createdAt),
+		})),
+	}));
 
-	onMount(() => {
-		fetchTransactions();
-	});
-
-	// Handle adding or updating transaction
-	const handleFormSubmit = async (
-		formData: TransactionFormData,
-	): Promise<void> => {
-		const editTx = editingTransaction();
-		if (editTx) {
-			// Mode Edit
-			const { error } = await actions.updateTransaction({
-				id: editTx.id,
-				...formData,
-			});
-			if (error) {
-				alert(`Gagal menyimpan perubahan: ${error.message}`);
-				return;
-			}
-			setEditingTransaction(null);
-		} else {
-			// Mode Simpan Baru
-			const { error } = await actions.createTransaction(formData);
-			if (error) {
-				alert(`Gagal menyimpan transaksi: ${error.message}`);
-				return;
-			}
-		}
-		// Refresh data
-		fetchTransactions();
-	};
-
-	// Handle toggle transaction classification type (income <-> expense)
-	const handleToggleType = async (id: string): Promise<void> => {
-		const { error } = await actions.toggleTransactionType({ id });
-		if (error) {
-			alert(`Gagal mengubah tipe: ${error.message}`);
-			return;
-		}
-		// Jika transaksi yang sedang diedit tipenya di-toggle di riwayat, sesuaikan state form
-		const editTx = editingTransaction();
-		if (editTx && editTx.id === id) {
-			setEditingTransaction({
-				...editTx,
-				type: editTx.type === "income" ? "expense" : "income",
-			});
-		}
-		fetchTransactions();
-	};
-
-	// Handle deleting transaction
-	const handleDelete = async (id: string): Promise<void> => {
-		if (confirm("Apakah Anda yakin ingin menghapus transaksi ini?")) {
-			const { error } = await actions.deleteTransaction({ id });
-			if (error) {
-				alert(`Gagal menghapus transaksi: ${error.message}`);
-				return;
-			}
-			// Jika transaksi yang sedang diedit dihapus, batalkan edit mode
-			const editTx = editingTransaction();
-			if (editTx && editTx.id === id) {
-				setEditingTransaction(null);
-			}
-			fetchTransactions();
-		}
-	};
-
-	// Start edit transaction mode
-	const handleEdit = (transaction: Transaction): void => {
+	// Memulai mode edit transaksi
+	const handleEdit = (transaction: Transaction) => {
 		setEditingTransaction(transaction);
-		// Arahkan fokus ke input form keterangan demi kemudahan input user
 		const titleInput = document.getElementById("transactionFormTitleInput");
 		if (titleInput) {
 			(titleInput as HTMLInputElement).focus();
 		}
 	};
 
-	// Filter transactions berdasarkan search query
+	// Filter transaksi secara reaktif berdasarkan search query
 	const filteredTransactions = createMemo(() => {
 		const query = searchQuery().toLowerCase().trim();
+		const list = transactionsQuery.data || [];
 		if (!query) {
-			return transactions();
+			return list;
 		}
-		return transactions().filter((t) => t.title.toLowerCase().includes(query));
+		return list.filter((t) => t.title.toLowerCase().includes(query));
 	});
 
 	return (
@@ -141,12 +83,12 @@ export default function App() {
 			{/* Main Content */}
 			<main class="tracker-main">
 				{/* Financial Summary */}
-				<Summary transactions={transactions()} />
+				<Summary transactions={transactionsQuery.data || []} />
 
 				{/* Add/Edit Transaction Form */}
 				<TransactionForm
-					onSubmit={handleFormSubmit}
 					editingTransaction={editingTransaction()}
+					onSuccess={() => setEditingTransaction(null)}
 				/>
 
 				{/* Transaction History Section */}
@@ -166,8 +108,6 @@ export default function App() {
 					<TransactionList
 						transactions={filteredTransactions()}
 						onEdit={handleEdit}
-						onDelete={handleDelete}
-						onToggleType={handleToggleType}
 					/>
 				</section>
 			</main>

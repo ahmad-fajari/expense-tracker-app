@@ -379,7 +379,7 @@ h6 {
 .tracker-transaction-form {
 	display: grid;
 	gap: 1rem;
-	align-items: end;
+	align-items: start;
 
 	@media (width >= 48rem) {
 		grid-template-columns: repeat(2, 1fr);
@@ -510,6 +510,7 @@ select option {
 	border: none;
 	block-size: 3rem;
 	border-radius: 12px;
+	margin-block-start: 1.7rem;
 	font-weight: 600;
 	font-size: 0.95rem;
 	cursor: pointer;

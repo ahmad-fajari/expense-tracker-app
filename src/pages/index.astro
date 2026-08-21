@@ -1,8 +1,12 @@
 ---
 import Layout from "~/layouts/Layout.astro";
 import App from "~/component/App";
+import { actions } from "astro:actions";
+
+const result = await Astro.callAction(actions.getTransactions, {});
+const initialTransactions = result.data;
 ---
 
 <Layout title="TacticCash | Expense Tracker">
-	<App client:load />
+	<App client:load initialTransactions={initialTransactions} />
 </Layout>

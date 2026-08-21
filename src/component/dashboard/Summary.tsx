@@ -23,7 +23,6 @@ export default function Summary(props: SummaryProps) {
 	});
 
 	const formatCurrency = (amount: number) => {
-		// Menghitung tanda minus secara manual agar format "Rp. -X.XXX" atau "-Rp. X.XXX" konsisten
 		const isNegative = amount < 0;
 		const absoluteAmount = Math.abs(amount);
 		return `${isNegative ? "-" : ""}Rp. ${absoluteAmount.toLocaleString("id-ID")}`;
@@ -50,7 +49,6 @@ export default function Summary(props: SummaryProps) {
 					</svg>
 					Saldo Saat Ini
 				</h3>
-				{/* Jangan ubah id "balance-amount" untuk kompatibilitas pengujian */}
 				<p id="balance-amount" class="tracker-summary__balance-amount primary">
 					{formatCurrency(totalBalance())}
 				</p>
@@ -69,7 +67,6 @@ export default function Summary(props: SummaryProps) {
 					</svg>
 					Pemasukan
 				</h3>
-				{/* Jangan ubah id "income-amount" untuk kompatibilitas pengujian */}
 				<p id="income-amount" class="tracker-summary__stat-amount income">
 					{formatCurrency(totalIncome())}
 				</p>
@@ -88,7 +85,6 @@ export default function Summary(props: SummaryProps) {
 					</svg>
 					Pengeluaran
 				</h3>
-				{/* Jangan ubah id "expense-amount" untuk kompatibilitas pengujian */}
 				<p id="expense-amount" class="tracker-summary__stat-amount expense">
 					{formatCurrency(totalExpense())}
 				</p>

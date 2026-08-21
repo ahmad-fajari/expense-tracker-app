@@ -110,15 +110,15 @@ export const relations = defineRelations(schema, (r) => ({
 Buat komponen-komponen SolidJS berbasis TypeScript (`.tsx`) di bawah folder `src/component/` dengan struktur modular:
 - [x] **`layout/Header.tsx`**: Menampilkan nama profil & tanggal dinamis.
 - [x] **`dashboard/Summary.tsx`**: Menampilkan ringkasan keuangan reaktif.
-- [x] **`transaction/TransactionForm.tsx`**: Form input transaksi dengan validasi.
+- [x] **`transaction/TransactionForm.tsx`**: Form input transaksi menggunakan `@tanstack/solid-form` dengan validasi inline.
 - [x] **`transaction/SearchBar.tsx`**: Bar pencarian transaksi.
 - [x] **`transaction/TransactionItem.tsx`**: Kartu detail transaksi dengan trigger aksi.
 - [x] **`transaction/TransactionList.tsx`**: Container yang memilah arus pemasukan dan pengeluaran.
-- [x] **`App.tsx`**: Komponen utama pengelola state lokal dan backend actions.
+- [x] **`App.tsx`**: Komponen utama pengelola state menggunakan `@tanstack/solid-query` untuk queries dan mutations.
 
 ### 🌐 FASE 7: Struktur Layout & SEO Metadata [DONE]
 - [x] **Layout Reusable (`src/layouts/Layout.astro`)**: Membuat shell HTML, SEO tags, dan load Fonts API.
-- [x] **Halaman Utama (`src/pages/index.astro`)**: Menghubungkan Layout dengan `<App client:load />`.
+- [x] **Halaman Utama (`src/pages/index.astro`)**: Mem-prefetch data transaksi di server-side frontmatter menggunakan Astro Action, lalu dikirim ke `<App client:load initialTransactions={initialTransactions} />` sebagai `initialData` untuk optimasi CLS (Cumulative Layout Shift).
 
 ### 🧪 FASE 8: Pengujian & Pembersihan
 - [ ] Uji integrasi data database Neon menggunakan Astro Actions.

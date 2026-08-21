@@ -7,3 +7,13 @@ export interface Transaction {
 	type: "income" | "expense";
 	createdAt: Date;
 }
+
+export interface SerializedTransaction {
+	id: string;
+	userId: string;
+	title: string;
+	amount: number;
+	date: string;
+	type: "income" | "expense";
+	createdAt: string | Date;
+}

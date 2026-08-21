@@ -1,15 +1,62 @@
 import { For, createMemo } from "solid-js";
+import { createMutation, useQueryClient } from "@tanstack/solid-query";
+import { actions } from "astro:actions";
 import type { Transaction } from "~/types";
 import TransactionItem from "./TransactionItem";
 
 interface TransactionListProps {
 	transactions: Transaction[];
 	onEdit: (transaction: Transaction) => void;
-	onDelete: (id: string) => void;
-	onToggleType: (id: string) => void;
 }
 
 export default function TransactionList(props: TransactionListProps) {
+	const queryClient = useQueryClient();
+
+	// Mutation: Hapus Transaksi
+	const deleteTxMutation = createMutation(() => ({
+		mutationFn: async (id: string) => {
+			const result = await actions.deleteTransaction({ id });
+			if (result.error) throw new Error(result.error.message);
+			return result.data;
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["transactions"] });
+		},
+	}));
+
+	// Mutation: Ubah Klasifikasi Tipe (income <-> expense)
+	const toggleTxTypeMutation = createMutation(() => ({
+		mutationFn: async (id: string) => {
+			const result = await actions.toggleTransactionType({ id });
+			if (result.error) throw new Error(result.error.message);
+			return result.data;
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["transactions"] });
+		},
+	}));
+
+	const handleToggleType = async (id: string) => {
+		try {
+			await toggleTxTypeMutation.mutateAsync(id);
+		} catch (err: unknown) {
+			const message = err instanceof Error ? err.message : "Terjadi kesalahan";
+			alert(`Gagal mengubah tipe: ${message}`);
+		}
+	};
+
+	const handleDelete = async (id: string) => {
+		if (confirm("Apakah Anda yakin ingin menghapus transaksi ini?")) {
+			try {
+				await deleteTxMutation.mutateAsync(id);
+			} catch (err: unknown) {
+				const message =
+					err instanceof Error ? err.message : "Terjadi kesalahan";
+				alert(`Gagal menghapus transaksi: ${message}`);
+			}
+		}
+	};
+
 	const incomeTransactions = createMemo(() => {
 		return props.transactions.filter((t) => t.type === "income");
 	});
@@ -35,8 +82,8 @@ export default function TransactionList(props: TransactionListProps) {
 							<TransactionItem
 								transaction={transaction}
 								onEdit={props.onEdit}
-								onDelete={props.onDelete}
-								onToggleType={props.onToggleType}
+								onDelete={handleDelete}
+								onToggleType={handleToggleType}
 							/>
 						)}
 					</For>
@@ -58,8 +105,8 @@ export default function TransactionList(props: TransactionListProps) {
 							<TransactionItem
 								transaction={transaction}
 								onEdit={props.onEdit}
-								onDelete={props.onDelete}
-								onToggleType={props.onToggleType}
+								onDelete={handleDelete}
+								onToggleType={handleToggleType}
 							/>
 						)}
 					</For>
