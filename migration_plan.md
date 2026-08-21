@@ -68,12 +68,12 @@ export const relations = defineRelations(schema, (r) => ({
 
 ## 🛠️ Tahapan Migrasi
 
-### 📁 FASE 1: Migrasi Aset & Stylesheet
-- [ ] **Pindahkan Aset**:
-  - Salin berkas `account_balance_wallet.svg` dari `archive/src/assets` ke folder `public/` atau `src/assets/`.
-- [ ] **Pindahkan Stylesheet**:
-  - Salin stylesheet kustom `archive/src/css/style.css` ke `src/styles/style.css`.
-  - Impor pada `src/styles/global.css`:
+### 📁 FASE 1: Migrasi Aset & Stylesheet [DONE]
+- [x] **Pindahkan Aset**:
+  - Berkas `account_balance_wallet.svg` dipindahkan secara manual.
+- [x] **Pindahkan Stylesheet**:
+  - Salin stylesheet kustom `archive/src/css/style.css` ke `src/styles/style.css` dan bersihkan blok `:root` duplikat.
+  - Impor pada `src/styles/global.css` di bagian atas:
     ```css
     @import "tailwindcss";
     @import "./style.css";
@@ -91,7 +91,7 @@ export const relations = defineRelations(schema, (r) => ({
 - [x] **Instalasi**: Menambahkan dependency `better-auth` ke `package.json`.
 - [x] **Konfigurasi Server (`src/lib/auth.ts`)**: Setup `betterAuth` dengan adapter `drizzleAdapter` (provider `pg`) dan plugin `emailAndPassword`.
 - [x] **Astro Route Handler (`src/pages/api/auth/[...all].ts`)**: Routing catch-all untuk Better Auth API.
-- [ ] **Better Auth CLI Generation**:
+- [x] **Better Auth CLI Generation**:
   - Jalankan `npx @better-auth/cli@latest generate --output src/db/auth-schema.ts` di masa mendatang setelah siap sinkronisasi schema auth penuh.
 
 ### ⚡ FASE 4: Komunikasi Data dengan Astro Actions [DONE]
@@ -102,9 +102,9 @@ export const relations = defineRelations(schema, (r) => ({
   - `toggleTransactionType` (Mengubah tipe transaksi Pemasukan <-> Pengeluaran).
   - `deleteTransaction` (Menghapus transaksi).
 
-### 🔤 FASE 5: Konfigurasi Fonts API & Fontsource
-- [ ] **Daftarkan Font "Outfit"**:
-  - Daftarkan Fonts API di `astro.config.mjs` menggunakan provider Fontsource dengan rentang ketebalan 100-900 (variable font).
+### 🔤 FASE 5: Konfigurasi Fonts API & Fontsource [DONE]
+- [x] **Daftarkan Font "Outfit"**:
+  - Konfigurasi Fonts API di `astro.config.mjs` menggunakan provider Fontsource dengan rentang ketebalan 100-900 (variable font).
 
 ### 🧩 FASE 6: Dekomposisi Komponen SolidJS (TypeScript)
 Buat komponen-komponen SolidJS berbasis TypeScript (`.tsx`) di bawah folder `src/component/`:

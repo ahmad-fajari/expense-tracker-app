@@ -1,5 +1,117 @@
 @import "tailwindcss";
+@import "./style.css";
 
-@theme inline {
+/* backward compatibility */
+:root {
+	color-scheme: light dark;
+
+	/* Map original variables for style.css compatibility */
+	--bg-page: var(--color-bg-page);
+	--bg-surface: var(--color-bg-surface);
+	--bg-card: var(--color-bg-card);
+
+	--text: var(--color-text);
+	--text-inverse: var(--color-text-inverse);
+	--text-muted: var(--color-text-muted);
+	--text-dark: var(--color-text-dark);
+
+	--primary: var(--color-primary);
+	--primary-bg: var(--color-primary-bg);
+	--primary-text: var(--color-primary-text);
+	--primary-hover: var(--color-primary-hover);
+
+	--secondary: var(--color-secondary);
+	--secondary-text-dark: var(--color-secondary-text-dark);
+	--secondary-hover: var(--color-secondary-hover);
+	--secondary-inverse: var(--color-secondary-inverse);
+
+	--delete-button: var(--color-delete-button);
+	--delete-text-dark: var(--color-delete-text-dark);
+	--delete-hover: var(--color-delete-hover);
+
+	--color-income: var(--color-income);
+	--income-bg: var(--color-income-bg);
+	--income-text-dark: var(--color-income-text-dark);
+
+	--color-expense: var(--color-expense);
+	--expense-bg: var(--color-expense-bg);
+	--expense-text-dark: var(--color-expense-text-dark);
+
+	--highlight: var(--color-highlight);
+	--border: var(--color-border-tracker);
+	--border-muted: var(--color-border-tracker-muted);
+
+	--shadow-color: 90deg 8% 10%;
+	--shadow-elevation-low: var(--shadow-elevation-low);
+	--shadow-elevation-medium: var(--shadow-elevation-medium);
+
+	--font-family: var(--font-outfit);
+	--card-radius: var(--radius-card-radius);
+	--card-padding: var(--spacing-card-padding);
+
 	--font-sans: var(--font-outfit);
+}
+
+@theme {
+	/* Colors */
+	--color-bg-page: light-dark(oklch(0.92 0.005 130), oklch(0.1 0.005 130));
+	--color-bg-surface: light-dark(oklch(0.96 0.005 130), oklch(0.15 0.005 130));
+	--color-bg-card: light-dark(oklch(1 0.005 130), oklch(0.2 0.005 130));
+
+	--color-text: light-dark(oklch(0.15 0.01 130), oklch(0.96 0.01 130));
+	--color-text-inverse: light-dark(oklch(0.96 0.01 130), oklch(0.15 0.01 130));
+	--color-text-muted: light-dark(oklch(0.4 0.01 130), oklch(0.76 0.01 130));
+	--color-text-dark: oklch(0.15 0.01 130);
+
+	--color-primary: light-dark(oklch(0.82 0.1 130), oklch(0.77 0.1 130));
+	--color-primary-bg: oklch(0.97 0.02 130);
+	--color-primary-text: light-dark(oklch(0.52 0.11 131), oklch(0.82 0.1 130));
+	--color-primary-hover: oklch(0.72 0.16 132);
+
+	--color-secondary: light-dark(oklch(0.55 0.1 109), oklch(0.85 0.09 108));
+	--color-secondary-text-dark: oklch(0.44 0.07 109);
+	--color-secondary-hover: light-dark(
+		oklch(0.89 0.07 108),
+		oklch(0.89 0.05 108)
+	);
+	--color-secondary-inverse: light-dark(
+		oklch(0.85 0.09 108),
+		oklch(0.55 0.1 109)
+	);
+
+	--color-delete-button: light-dark(oklch(0.48 0.19 24), oklch(0.65 0.2 18));
+	--color-delete-text-dark: oklch(0.36 0.14 22);
+	--color-delete-hover: oklch(0.95 0.03 7);
+
+	--color-income: light-dark(oklch(0.44 0.12 254), oklch(0.73 0.12 250));
+	--color-income-bg: oklch(0.96 0.02 250);
+	--color-income-text-dark: oklch(0.53 0.17 255);
+
+	--color-expense: light-dark(oklch(0.48 0.15 41), oklch(0.71 0.12 44));
+	--color-expense-bg: oklch(0.96 0.02 48);
+	--color-expense-text-dark: oklch(0.48 0.15 41);
+
+	--color-highlight: light-dark(oklch(1 0.01 130), oklch(0.5 0.01 130));
+	--color-border-tracker: light-dark(oklch(0.6 0.01 130), oklch(0.4 0.01 130));
+	--color-border-tracker-muted: light-dark(
+		oklch(0.7 0.01 130),
+		oklch(0.3 0.01 130)
+	);
+
+	/* Spacing */
+	--spacing-card-padding: 24px;
+
+	/* Border Radius */
+	--radius-card-radius: 20px;
+
+	/* Shadows */
+	--shadow-elevation-low:
+		0.3px 0.5px 0.7px hsl(90deg 8% 10% / 0.34),
+		0.4px 0.8px 1px -1.2px hsl(90deg 8% 10% / 0.34),
+		1px 2px 2.5px -2.5px hsl(90deg 8% 10% / 0.34);
+	--shadow-elevation-medium:
+		0.3px 0.5px 0.6px hsl(90deg 8% 10% / 0.44),
+		0.6px 1.2px 1.3px -1.2px hsl(90deg 8% 10% / 0.38),
+		1.8px 3.5px 3.8px -2.4px hsl(90deg 8% 10% / 0.31),
+		4.7px 9.3px 10px -3.6px hsl(90deg 8% 10% / 0.24);
 }
