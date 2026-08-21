@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from "astro/config";
+import { defineConfig, fontProviders } from "astro/config";
 
 import cloudflare from "@astrojs/cloudflare";
 
@@ -16,4 +16,14 @@ export default defineConfig({
 	},
 
 	integrations: [solidJs()],
+
+	fonts: [
+		{
+			name: "Outfit",
+			cssVariable: "--font-outfit",
+			provider: fontProviders.fontsource(),
+			weights: ["100 900"],
+			fallbacks: ["sans-serif"],
+		},
+	],
 });

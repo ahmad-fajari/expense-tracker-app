@@ -1,0 +1,61 @@
+---
+import { Font } from "astro:assets";
+
+import "~/styles/global.css";
+
+type Props = {
+	title?: string;
+};
+
+const { title = "TacticCash | Expense Tracker" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="id">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<meta name="color-scheme" content="light dark">
+
+		<meta
+			name="theme-color"
+			media="(prefers-color-scheme: light)"
+			content="#c3dfa8">
+		<meta
+			name="theme-color"
+			media="(prefers-color-scheme: dark)"
+			content="#3d5625">
+
+		<!-- SEO Meta Tags -->
+		<title>{title}</title>
+		<meta name="author" content="Ahmad Fajari">
+		<meta
+			name="description"
+			content="TacticCash adalah aplikasi pelacak keuangan (expense tracker) berbasis web yang dirancang agar praktis dan responsif untuk mengelola keuangan pribadi. Dilengkapi dengan ringkasan saldo secara real-time, penyimpanan data otomatis dan aman melalui Local Storage, hingga pencarian dan pengelolaan transaksi yang interaktif, aplikasi ini dirancang untuk memudahkan Anda dalam mengambil kendali penuh atas pemasukan dan pengeluaran harian.">
+
+		<!-- OG Tags -->
+		<meta property="og:title" content={title}>
+		<meta
+			property="og:description"
+			content="TacticCash adalah aplikasi pelacak keuangan (expense tracker) berbasis web yang dirancang agar praktis dan responsif untuk mengelola keuangan pribadi. Dilengkapi dengan ringkasan saldo secara real-time, penyimpanan data otomatis dan aman melalui Local Storage, hingga pencarian dan pengelolaan transaksi yang interaktif, aplikasi ini dirancang untuk memudahkan Anda dalam mengambil kendali penuh atas pemasukan dan pengeluaran harian.">
+		<meta
+			property="og:image"
+			content="https://res.cloudinary.com/dspqgpnvq/image/upload/v1781238549/tactic-cash_giqprl.png">
+		<meta property="og:url" content="https://tactic-cash.vercel.app/">
+		<meta property="og:type" content="website">
+		<meta property="og:site_name" content="Ahmad Fajari Portfolio">
+
+		<!-- favicon -->
+		<link
+			rel="icon"
+			href="/src/assets/account_balance_wallet.svg"
+			type="image/svg+xml">
+
+		<!-- Astro Fonts API -->
+		<Font cssVariable="--font-outfit" preload />
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>
