@@ -1,7 +1,7 @@
 import { pgTable, text, integer, timestamp } from "drizzle-orm/pg-core";
-import { user } from "./auth-schema";
+import { user } from "~/db/auth-schema";
 
-export * from "./auth-schema";
+export * from "~/db/auth-schema";
 
 // Skema Transaksi dengan Relasi User
 export const transaction = pgTable("transaction", {

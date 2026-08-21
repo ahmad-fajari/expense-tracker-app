@@ -1,8 +1,8 @@
 import { defineAction, ActionError } from "astro:actions";
 import { eq, desc } from "drizzle-orm";
-import { db } from "../db";
-import { transaction, user } from "../db/schema";
-import { auth } from "../lib/auth";
+import { db } from "~/db";
+import { transaction, user } from "~/db/schema";
+import { auth } from "~/lib/auth";
 import {
 	transactionSchema,
 	updateTransactionSchema,
