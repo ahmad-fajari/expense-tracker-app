@@ -106,19 +106,19 @@ export const relations = defineRelations(schema, (r) => ({
 - [x] **Daftarkan Font "Outfit"**:
   - Konfigurasi Fonts API di `astro.config.mjs` menggunakan provider Fontsource dengan rentang ketebalan 100-900 (variable font).
 
-### 🧩 FASE 6: Dekomposisi Komponen SolidJS (TypeScript)
-Buat komponen-komponen SolidJS berbasis TypeScript (`.tsx`) di bawah folder `src/component/`:
-- [ ] **`Header.tsx`**
-- [ ] **`Summary.tsx`**
-- [ ] **`TransactionForm.tsx`**
-- [ ] **`SearchBar.tsx`**
-- [ ] **`TransactionItem.tsx`**
-- [ ] **`TransactionList.tsx`**
-- [ ] **`App.tsx`** (menggunakan `actions` dari `astro:actions` secara langsung).
+### 🧩 FASE 6: Dekomposisi Komponen SolidJS (TypeScript) [DONE]
+Buat komponen-komponen SolidJS berbasis TypeScript (`.tsx`) di bawah folder `src/component/` dengan struktur modular:
+- [x] **`layout/Header.tsx`**: Menampilkan nama profil & tanggal dinamis.
+- [x] **`dashboard/Summary.tsx`**: Menampilkan ringkasan keuangan reaktif.
+- [x] **`transaction/TransactionForm.tsx`**: Form input transaksi dengan validasi.
+- [x] **`transaction/SearchBar.tsx`**: Bar pencarian transaksi.
+- [x] **`transaction/TransactionItem.tsx`**: Kartu detail transaksi dengan trigger aksi.
+- [x] **`transaction/TransactionList.tsx`**: Container yang memilah arus pemasukan dan pengeluaran.
+- [x] **`App.tsx`**: Komponen utama pengelola state lokal dan backend actions.
 
-### 🌐 FASE 7: Struktur Layout & SEO Metadata
-- [ ] **Layout Reusable (`src/layout/Layout.astro`)**: Membuat file layout dengan `<slot />` untuk membungkus halaman.
-- [ ] **Halaman Utama (`src/pages/index.astro`)**: Menggunakan Layout kustom dan me-load `<App client:load />`.
+### 🌐 FASE 7: Struktur Layout & SEO Metadata [DONE]
+- [x] **Layout Reusable (`src/layouts/Layout.astro`)**: Membuat shell HTML, SEO tags, dan load Fonts API.
+- [x] **Halaman Utama (`src/pages/index.astro`)**: Menghubungkan Layout dengan `<App client:load />`.
 
 ### 🧪 FASE 8: Pengujian & Pembersihan
 - [ ] Uji integrasi data database Neon menggunakan Astro Actions.
