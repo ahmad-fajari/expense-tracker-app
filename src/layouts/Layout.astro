@@ -52,6 +52,13 @@ const { title = "TacticCash | Expense Tracker" } = Astro.props;
 
 		<!-- Astro Fonts API -->
 		<Font cssVariable="--font-outfit" preload />
+
+		<script is:inline>
+		const savedTheme = localStorage.getItem("theme");
+		if (savedTheme) {
+			document.documentElement.setAttribute("data-theme", savedTheme);
+		}
+		</script>
 	</head>
 	<body>
 		<slot />

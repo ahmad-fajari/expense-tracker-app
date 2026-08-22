@@ -1,4 +1,8 @@
 import { createMemo } from "solid-js";
+import { CircleUserIcon } from "lucide-solid";
+
+import ThemeToggle from "~/component/ui/ThemeToggle";
+
 import { authClient } from "~/lib/auth-client";
 
 export default function Header() {
@@ -27,30 +31,31 @@ export default function Header() {
 	});
 
 	return (
-		<header class="tracker-header">
-			<div class="tracker-header__wrapper">
-				<h1 class="tracker-header__title">
-					Tactic<span>Cash</span>
+		<header class="inline-full top-0 z-[1] sticky bg-bg-card shadow-elevation-medium -mx-4 -mbs-4">
+			<div class="md:max-inline-[50rem] lg:max-inline-[80rem] flex justify-end items-center gap-4 mx-auto p-4">
+				<h1 class="justify-self-start me-auto font-extrabold text-2xl tracking-[-0.03em]">
+					Tactic<span class="text-primary-text">Cash</span>
 				</h1>
-				<div class="tracker-header__user">
-					<div class="tracker-header__user-info">
-						<span class="tracker-header__greeting">
+
+				<ThemeToggle />
+
+				<div class="flex items-center gap-[0.85rem]">
+					<div class="justify-items-end gap-1 grid grid-cols-[auto] sm:grid-cols-[repeat(2,auto)]">
+						<span class="text-[0.95rem] text-text">
 							Halo, <strong>{userDisplay().name}</strong>
 						</span>
 						<span>({userDisplay().email})</span>
-						{/* Jangan ubah id "header-date" untuk kompatibilitas pengujian */}
-						<span id="header-date" class="tracker-header__date">
+						<span
+							id="header-date"
+							class="sm:col-span-2 font-medium text-[0.8rem] text-text-muted">
 							{headerDateString()}
 						</span>
 					</div>
-					<div class="tracker-header__avatar">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 0 640 640"
-							aria-hidden="true">
-							<path d="M320 312C386.3 312 440 258.3 440 192C440 125.7 386.3 72 320 72C253.7 72 200 125.7 200 192C200 258.3 253.7 312 320 312zM290.3 368C191.8 368 112 447.8 112 546.3C112 562.7 125.3 576 141.7 576L498.3 576C514.7 576 528 562.7 528 546.3C528 447.8 448.2 368 349.7 368L290.3 368z" />
-						</svg>
-					</div>
+					<CircleUserIcon
+						strokeWidth={1.5}
+						absoluteStrokeWidth={true}
+						class="block-auto inline-10 text-primary-text"
+					/>
 				</div>
 			</div>
 		</header>

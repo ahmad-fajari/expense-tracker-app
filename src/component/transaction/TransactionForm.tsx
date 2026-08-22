@@ -3,6 +3,7 @@ import { createMutation, useQueryClient } from "@tanstack/solid-query";
 import { actions } from "astro:actions";
 import { Show, createEffect } from "solid-js";
 import type { Transaction } from "~/types";
+import Button from "../ui/Button";
 
 interface TransactionFormProps {
 	editingTransaction: Transaction | null;
@@ -160,7 +161,7 @@ export default function TransactionForm(props: TransactionFormProps) {
 									field().state.meta.isTouched &&
 									field().state.meta.errors.length
 								}>
-								<span class="text-red-500 text-sm mt-1 block">
+								<span class="block mt-1 text-red-500">
 									{field().state.meta.errors.join(", ")}
 								</span>
 							</Show>
@@ -209,7 +210,7 @@ export default function TransactionForm(props: TransactionFormProps) {
 									field().state.meta.isTouched &&
 									field().state.meta.errors.length
 								}>
-								<span class="text-red-500 text-sm mt-1 block">
+								<span class="block mt-1 text-red-500">
 									{field().state.meta.errors.join(", ")}
 								</span>
 							</Show>
@@ -252,7 +253,7 @@ export default function TransactionForm(props: TransactionFormProps) {
 									field().state.meta.isTouched &&
 									field().state.meta.errors.length
 								}>
-								<span class="text-red-500 text-sm mt-1 block">
+								<span class="block mt-1 text-red-500">
 									{field().state.meta.errors.join(", ")}
 								</span>
 							</Show>
@@ -297,7 +298,7 @@ export default function TransactionForm(props: TransactionFormProps) {
 									field().state.meta.isTouched &&
 									field().state.meta.errors.length
 								}>
-								<span class="text-red-500 text-sm mt-1 block">
+								<span class="block mt-1 text-red-500">
 									{field().state.meta.errors.join(", ")}
 								</span>
 							</Show>
@@ -306,12 +307,13 @@ export default function TransactionForm(props: TransactionFormProps) {
 				</form.Field>
 
 				{/* simpan button */}
-				<button
+				<Button
 					type="submit"
-					data-testid="transactionFormSubmitButton"
-					class="tracker-transaction-form__submit">
+					variant="primary"
+					class="md:col-span-2 mbs-7"
+					data-testid="transactionFormSubmitButton">
 					{props.editingTransaction ? "Simpan Perubahan" : "Catat Transaksi"}
-				</button>
+				</Button>
 			</form>
 		</section>
 	);

@@ -66,17 +66,16 @@ export default function TransactionList(props: TransactionListProps) {
 	});
 
 	return (
-		<div id="transaction-list" class="tracker-transaction-list">
+		<div id="transaction-list" class="gap-6 grid lg:grid-cols-[1fr_1fr]">
 			{/* Arus Pemasukan */}
-			<div class="tracker-transaction-list__card tracker-card">
-				<div class="tracker-transaction-list__header">
-					<h3 class="tracker-transaction-list__title">Arus Pemasukan</h3>
+			<div class="@container max-block-max tracker-card">
+				<div class="flex justify-between">
+					<h3 class="font-semibold text-[0.85rem] text-text-muted uppercase tracking-wider mbe-2 cap-alphabetic">
+						Arus Pemasukan
+					</h3>
 				</div>
 				{/* Jangan ubah atau hapus atribut data-testid pada elemen berikut */}
-				<div
-					id="incomeList"
-					data-testid="incomeList"
-					class="tracker-transaction-list__container">
+				<div id="incomeList" data-testid="incomeList" class="flex flex-col">
 					<For each={incomeTransactions()}>
 						{(transaction) => (
 							<TransactionItem
@@ -91,15 +90,14 @@ export default function TransactionList(props: TransactionListProps) {
 			</div>
 
 			{/* Arus Pengeluaran */}
-			<div class="tracker-transaction-list__card tracker-card">
+			<div class="@container max-block-max tracker-card">
 				<div class="tracker-transaction-list__header">
-					<h3 class="tracker-transaction-list__title">Arus Pengeluaran</h3>
+					<h3 class="font-semibold text-[0.85rem] text-text-muted uppercase tracking-wider mbe-2 cap-alphabetic">
+						Arus Pengeluaran
+					</h3>
 				</div>
 				{/* Jangan ubah atau hapus atribut data-testid pada elemen berikut */}
-				<div
-					id="expenseList"
-					data-testid="expenseList"
-					class="tracker-transaction-list__container">
+				<div id="expenseList" data-testid="expenseList" class="flex flex-col">
 					<For each={expenseTransactions()}>
 						{(transaction) => (
 							<TransactionItem

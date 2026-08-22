@@ -58,7 +58,7 @@ export default function Summary(props: SummaryProps) {
 			<div class="tracker-summary__stat tracker-summary__stat--income tracker-card">
 				<h3 class="tracker-summary__label">
 					<svg
-						class="tracker-transaction-icon income"
+						class="transaction-icon income"
 						aria-hidden="true"
 						fill="currentColor"
 						xmlns="http://www.w3.org/2000/svg"
@@ -76,7 +76,7 @@ export default function Summary(props: SummaryProps) {
 			<div class="tracker-summary__stat tracker-summary__stat--expense tracker-card">
 				<h3 class="tracker-summary__label">
 					<svg
-						class="tracker-transaction-icon tracker-transaction-icon--expense expense"
+						class="transaction-icon icon-expense expense"
 						aria-hidden="true"
 						fill="currentColor"
 						xmlns="http://www.w3.org/2000/svg"
