@@ -1,4 +1,10 @@
-import { ArrowRightLeft, MoveDownLeft, SquarePen, Trash2 } from "lucide-solid";
+import {
+	ArrowRightLeft,
+	EllipsisVertical,
+	MoveDownLeft,
+	SquarePen,
+	Trash2,
+} from "lucide-solid";
 
 import type { Transaction } from "~/types";
 import { classList } from "~/utils/class-list";
@@ -13,6 +19,8 @@ interface TransactionItemProps {
 }
 
 export default function TransactionItem(props: TransactionItemProps) {
+	let popoverRef: HTMLDivElement | undefined;
+
 	const formatCurrency = (amount: number) => {
 		return `Rp. ${amount.toLocaleString("id-ID")}`;
 	};
@@ -22,7 +30,7 @@ export default function TransactionItem(props: TransactionItemProps) {
 	return (
 		<section
 			data-testid="transactionItem"
-			class="items-center gap-x-8 grid @min-[32rem]:grid-cols-[1fr_auto] border-border-muted not-last:border-be pbe-3 not-last:mbe-3"
+			class="items-center gap-x-8 grid grid-cols-[1fr_auto] border-border-muted not-last:border-be pbe-3 not-last:mbe-3"
 			data-transaction-id={props.transaction.id}>
 			{/* detail transaksi wrapper */}
 			<div class="@min-[23rem]:justify-items-end items-center gap-4 grid @min-[23rem]:grid-cols-[auto_auto_5.5rem] grow">
@@ -61,36 +69,57 @@ export default function TransactionItem(props: TransactionItemProps) {
 			</div>
 
 			{/* button wrapper */}
-			<div class="flex min-[32rem]:flex-row flex-wrap justify-center justify-self-end gap-3 min-[40rem]:gap-1">
-				{/* edit button */}
+			<div class="flex justify-end justify-self-end">
+				{/* dropdown trigger button */}
 				<Button
 					variant="action"
-					id="edit-button"
-					aria-label="Edit Transaksi"
-					title="Edit Transaksi"
-					onClick={() => props.onEdit(props.transaction)}>
-					<SquarePen class="inline-6" />
+					popoverTarget={`action-dropdown-${props.transaction.id}`}
+					aria-label="Action"
+					style={`anchor-name: --action-button-${props.transaction.id};`}>
+					<EllipsisVertical class="inline-6" />
 				</Button>
 
-				{/* ubah transaksi button */}
-				<Button
-					variant="action"
-					data-testid="transactionItemEditTypeButton"
-					aria-label="Ubah Tipe Transaksi"
-					title="Ubah Tipe Transaksi"
-					onClick={() => props.onToggleType(props.transaction.id)}>
-					<ArrowRightLeft class="inline-6" />
-				</Button>
+				{/* dropdown popover */}
+				<div
+					ref={popoverRef}
+					id={`action-dropdown-${props.transaction.id}`}
+					popover
+					class="z-50 bg-bg-card shadow-elevation-medium p-1 border border-border rounded-xl w-48 position-dropdown-popover"
+					style={`position-anchor: --action-button-${props.transaction.id};`}>
+					<button
+						type="button"
+						id="edit-button"
+						onClick={() => {
+							props.onEdit(props.transaction);
+							popoverRef?.hidePopover();
+						}}
+						class="flex items-center gap-2 hover:bg-bg-surface px-3 py-2 rounded-lg w-full text-text-muted hover:text-secondary text-sm text-left transition-colors duration-150 cursor-pointer">
+						<SquarePen class="w-4 h-4" />
+						<span>Edit Transaksi</span>
+					</button>
 
-				{/* hapus transaksi button */}
-				<Button
-					variant="delete"
-					data-testid="transactionItemDeleteButton"
-					aria-label="Hapus Transaksi"
-					title="Hapus Transaksi"
-					onClick={() => props.onDelete(props.transaction.id)}>
-					<Trash2 class="inline-6" />
-				</Button>
+					<button
+						type="button"
+						onClick={() => {
+							props.onToggleType(props.transaction.id);
+							popoverRef?.hidePopover();
+						}}
+						class="flex items-center gap-2 hover:bg-bg-surface px-3 py-2 rounded-lg w-full text-text-muted hover:text-secondary text-sm text-left transition-colors duration-150 cursor-pointer">
+						<ArrowRightLeft class="w-4 h-4" />
+						<span>Ubah Tipe Transaksi</span>
+					</button>
+
+					<button
+						type="button"
+						onClick={() => {
+							props.onDelete(props.transaction.id);
+							popoverRef?.hidePopover();
+						}}
+						class="flex items-center gap-2 hover:bg-bg-surface px-3 py-2 rounded-lg w-full text-delete-button text-sm text-left transition-colors duration-150 cursor-pointer">
+						<Trash2 class="w-4 h-4" />
+						<span>Hapus Transaksi</span>
+					</button>
+				</div>
 			</div>
 		</section>
 	);

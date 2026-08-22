@@ -1,6 +1,7 @@
-import { For, createMemo } from "solid-js";
+import { For, Show, createMemo } from "solid-js";
 import { createMutation, useQueryClient } from "@tanstack/solid-query";
 import { actions } from "astro:actions";
+import { Wallet } from "lucide-solid";
 import type { Transaction } from "~/types";
 import TransactionItem from "./TransactionItem";
 
@@ -76,16 +77,25 @@ export default function TransactionList(props: TransactionListProps) {
 				</div>
 				{/* Jangan ubah atau hapus atribut data-testid pada elemen berikut */}
 				<div id="incomeList" data-testid="incomeList" class="flex flex-col">
-					<For each={incomeTransactions()}>
-						{(transaction) => (
-							<TransactionItem
-								transaction={transaction}
-								onEdit={props.onEdit}
-								onDelete={handleDelete}
-								onToggleType={handleToggleType}
-							/>
-						)}
-					</For>
+					<Show
+						when={incomeTransactions().length > 0}
+						fallback={
+							<div class="flex flex-col items-center justify-center py-8 text-text-muted gap-2">
+								<Wallet class="w-8 h-8 opacity-40" />
+								<span>Tidak ada transaksi</span>
+							</div>
+						}>
+						<For each={incomeTransactions()}>
+							{(transaction) => (
+								<TransactionItem
+									transaction={transaction}
+									onEdit={props.onEdit}
+									onDelete={handleDelete}
+									onToggleType={handleToggleType}
+								/>
+							)}
+						</For>
+					</Show>
 				</div>
 			</div>
 
@@ -98,16 +108,25 @@ export default function TransactionList(props: TransactionListProps) {
 				</div>
 				{/* Jangan ubah atau hapus atribut data-testid pada elemen berikut */}
 				<div id="expenseList" data-testid="expenseList" class="flex flex-col">
-					<For each={expenseTransactions()}>
-						{(transaction) => (
-							<TransactionItem
-								transaction={transaction}
-								onEdit={props.onEdit}
-								onDelete={handleDelete}
-								onToggleType={handleToggleType}
-							/>
-						)}
-					</For>
+					<Show
+						when={expenseTransactions().length > 0}
+						fallback={
+							<div class="flex flex-col items-center justify-center py-8 text-text-muted gap-2">
+								<Wallet class="w-8 h-8 opacity-40" />
+								<span>Tidak ada transaksi</span>
+							</div>
+						}>
+						<For each={expenseTransactions()}>
+							{(transaction) => (
+								<TransactionItem
+									transaction={transaction}
+									onEdit={props.onEdit}
+									onDelete={handleDelete}
+									onToggleType={handleToggleType}
+								/>
+							)}
+						</For>
+					</Show>
 				</div>
 			</div>
 		</div>
