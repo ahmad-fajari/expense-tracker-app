@@ -3,6 +3,7 @@ import { Font } from "astro:assets";
 
 import "~/styles/global.css";
 import Footer from "~/component/layout/Footer.astro";
+import Header from "~/component/layout/Header";
 
 interface Props {
 	title?: string;
@@ -61,7 +62,10 @@ const { title = "TacticCash | Expense Tracker" } = Astro.props;
 		</script>
 	</head>
 	<body>
-		<slot />
-		<Footer />
+		<div class="tracker-app">
+			<Header />
+			<slot />
+			<Footer />
+		</div>
 	</body>
 </html>

@@ -6,7 +6,6 @@ import {
 } from "@tanstack/solid-query";
 import { actions } from "astro:actions";
 import type { Transaction, SerializedTransaction } from "~/types";
-import Header from "./layout/Header";
 import Summary from "./dashboard/Summary";
 import TransactionForm from "./transaction/TransactionForm";
 import SearchBar from "./transaction/SearchBar";
@@ -39,7 +38,7 @@ function TrackerApp(props: TrackerAppProps) {
 	const transactionsQuery = createQuery(() => ({
 		queryKey: ["transactions"],
 		queryFn: async () => {
-			const result = await actions.getTransactions();
+			const result = await actions.getLatestTransactions();
 			if (result.error) {
 				throw new Error(result.error.message);
 			}
@@ -76,41 +75,35 @@ function TrackerApp(props: TrackerAppProps) {
 	});
 
 	return (
-		<div class="tracker-app">
-			{/* Header */}
-			<Header />
+		<main class="tracker-main">
+			{/* Financial Summary */}
+			<Summary transactions={transactionsQuery.data || []} />
 
-			{/* Main Content */}
-			<main class="tracker-main">
-				{/* Financial Summary */}
-				<Summary transactions={transactionsQuery.data || []} />
+			{/* Add/Edit Transaction Form */}
+			<TransactionForm
+				editingTransaction={editingTransaction()}
+				onSuccess={() => setEditingTransaction(null)}
+			/>
 
-				{/* Add/Edit Transaction Form */}
-				<TransactionForm
-					editingTransaction={editingTransaction()}
-					onSuccess={() => setEditingTransaction(null)}
+			{/* Transaction History Section */}
+			<section class="tracker-history" aria-labelledby="history-heading">
+				<h2 id="history-heading" class="visually-hidden">
+					Riwayat Transaksi
+				</h2>
+
+				{/* Search Bar */}
+				<SearchBar
+					value={searchQuery()}
+					onInput={setSearchQuery}
+					onClear={() => setSearchQuery("")}
 				/>
 
-				{/* Transaction History Section */}
-				<section class="tracker-history" aria-labelledby="history-heading">
-					<h2 id="history-heading" class="visually-hidden">
-						Riwayat Transaksi
-					</h2>
-
-					{/* Search Bar */}
-					<SearchBar
-						value={searchQuery()}
-						onInput={setSearchQuery}
-						onClear={() => setSearchQuery("")}
-					/>
-
-					{/* Transaction Lists grouped by type */}
-					<TransactionList
-						transactions={filteredTransactions()}
-						onEdit={handleEdit}
-					/>
-				</section>
-			</main>
-		</div>
+				{/* Transaction Lists grouped by type */}
+				<TransactionList
+					transactions={filteredTransactions()}
+					onEdit={handleEdit}
+				/>
+			</section>
+		</main>
 	);
 }

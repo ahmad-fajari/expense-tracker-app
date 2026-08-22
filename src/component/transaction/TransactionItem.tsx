@@ -22,7 +22,7 @@ export default function TransactionItem(props: TransactionItemProps) {
 	return (
 		<section
 			data-testid="transactionItem"
-			class="items-center gap-x-8 grid @min-[32rem]:grid-cols-[1fr_auto] border-border-muted not-last:border-be pbe-3 mbe-3"
+			class="items-center gap-x-8 grid @min-[32rem]:grid-cols-[1fr_auto] border-border-muted not-last:border-be pbe-3 not-last:mbe-3"
 			data-transaction-id={props.transaction.id}>
 			{/* detail transaksi wrapper */}
 			<div class="@min-[23rem]:justify-items-end items-center gap-4 grid @min-[23rem]:grid-cols-[auto_auto_5.5rem] grow">

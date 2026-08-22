@@ -278,3 +278,7 @@
 	inline-size: anchor-size();
 	margin-block-start: 0.2rem;
 }
+
+@utility justify-normal {
+	justify-content: normal;
+}

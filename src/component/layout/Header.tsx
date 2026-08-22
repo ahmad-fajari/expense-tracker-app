@@ -31,7 +31,7 @@ export default function Header() {
 	});
 
 	return (
-		<header class="inline-full top-0 z-[1] sticky bg-bg-card shadow-elevation-medium -mx-4 -mbs-4">
+		<header class="inline-full top-0 z-10 sticky justify-normal bg-bg-card shadow-elevation-medium">
 			<div class="md:max-inline-[50rem] lg:max-inline-[80rem] flex justify-end items-center gap-4 mx-auto p-4">
 				<h1 class="justify-self-start me-auto font-extrabold text-2xl tracking-[-0.03em]">
 					Tactic<span class="text-primary-text">Cash</span>

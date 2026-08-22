@@ -8,20 +8,7 @@
 	grid-template-rows: auto 1fr auto;
 	justify-items: center;
 	gap: 2rem;
-	padding: 1rem;
 }
-
-/*  ============
-    TRACKER CARD
-    ============ */
-
-/*  =============
-    TRACKER INPUT
-    ============= */
-
-/*  ========================
-    TRACKER TRANSACTION ICON
-    ======================== */
 
 .tracker-transaction-icon--larger {
 	inline-size: 1.5rem;
@@ -37,6 +24,7 @@
 	max-block-size: max-content;
 	display: flex;
 	flex-direction: column;
+	margin-inline: 1rem;
 	padding: 1.5rem;
 	background-color: var(--bg-surface);
 	border-radius: var(--card-radius);

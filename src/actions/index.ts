@@ -1,5 +1,5 @@
 import { defineAction, ActionError } from "astro:actions";
-import { eq, desc } from "drizzle-orm";
+import { eq, asc } from "drizzle-orm";
 import { db } from "~/db";
 import { transaction, user } from "~/db/schema";
 import { auth } from "~/lib/auth";
@@ -11,7 +11,7 @@ import {
 
 export const server = {
 	// Mengambil daftar transaksi user
-	getTransactions: defineAction({
+	getLatestTransactions: defineAction({
 		handler: async (_input, context) => {
 			const session = await auth.api.getSession({
 				headers: context.request.headers,
@@ -35,7 +35,8 @@ export const server = {
 				.select()
 				.from(transaction)
 				.where(eq(transaction.userId, userId))
-				.orderBy(desc(transaction.createdAt));
+				.orderBy(asc(transaction.createdAt))
+				.limit(10);
 
 			return data;
 		},

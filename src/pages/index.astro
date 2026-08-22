@@ -3,7 +3,7 @@ import Layout from "~/layouts/Layout.astro";
 import App from "~/component/App";
 import { actions } from "astro:actions";
 
-const result = await Astro.callAction(actions.getTransactions, {});
+const result = await Astro.callAction(actions.getLatestTransactions, {});
 const initialTransactions = result.data;
 ---
 
