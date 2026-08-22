@@ -279,6 +279,16 @@
 	margin-block-start: 0.2rem;
 }
 
-@utility justify-normal {
-	justify-content: normal;
+@utility search-input-shadow {
+	box-shadow:
+		inset 1px 0 0 0 var(--secondary) /* Kiri */,
+		inset 0 1px 0 0 var(--secondary) /* Atas */,
+		inset 0 -1px 0 0 var(--secondary); /* Bawah */
+}
+
+@utility search-button-shadow {
+	box-shadow:
+		inset -1px 0 0 0 var(--secondary) /* Kanan */,
+		inset 0 1px 0 0 var(--secondary) /* Atas */,
+		inset 0 -1px 0 0 var(--secondary); /* Bawah */
 }

@@ -6,6 +6,7 @@ import {
 } from "@tanstack/solid-query";
 import { actions } from "astro:actions";
 import type { Transaction, SerializedTransaction } from "~/types";
+import { createUrlParams } from "~/utils/createUrlParams";
 import Summary from "./dashboard/Summary";
 import TransactionForm from "./transaction/TransactionForm";
 import SearchBar from "./transaction/SearchBar";
@@ -30,7 +31,7 @@ interface TrackerAppProps {
 }
 
 function TrackerApp(props: TrackerAppProps) {
-	const [searchQuery, setSearchQuery] = createSignal("");
+	const [searchQuery, setSearchQuery] = createUrlParams("search", "");
 	const [editingTransaction, setEditingTransaction] =
 		createSignal<Transaction | null>(null);
 
